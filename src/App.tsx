@@ -1,28 +1,35 @@
 // import { message } from 'antd'
 import React from 'react'
-import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import { 
+  Route, 
+  Routes, 
+  BrowserRouter as Router,
+} from 'react-router-dom'
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Message from './pages/Message';
 import User from './pages/User';
 import Page404 from './pages/404';
-
-// 配置全局 message
-//TODO: sass全部改为less
+import TabButton from './components/TabButton';
+import s from './style.module.less'
 
 const App: React.FC = () => (
-  <>
-    {/* TODO: 修改一下路由配置 */}
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path='/home' element={<Home />} />
-        <Route path='/message' element={<Message />} />
-        <Route path='/user' element={<User />} />
-        <Route path='/' element={< Page404 />} />
-      </Routes>
-    </BrowserRouter>
-  </>
+  <Router>
+    <div className={s.app}>
+      <div className={s.main}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/message' element={<Message />} />
+          <Route path='/me' element={<User />} />
+          <Route path='/' element={< Home />} />
+        </Routes>
+      </div>
+      <div className={s.bottom}>
+        <TabButton />
+      </div>
+    </div>
+  </Router>
 )
 
 export default App

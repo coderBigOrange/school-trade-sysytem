@@ -1,0 +1,93 @@
+.card {
+  max-height: 70%;
+  margin: 0 10px;
+  padding: 0 10px;
+  overflow: hidden;
+  border-radius: 15px;
+  background: white;
+  .header {
+    display: flex;
+    align-items: center;
+    margin: 10px 0 20px 0;
+    .avatar {
+      margin-right: 10px;
+      border-radius: 10px;
+    }
+    .baseInfo {
+      .userName {
+        font-size: 14px;
+        font-weight: 800;
+        margin-bottom: 5px;
+      }
+      .otherInfo {
+        height: 16px;
+        line-height: 16px;
+        font-size: 12px;
+        color: rgb(178, 178, 178);
+      }
+    }
+  }
+  .content {
+    .title {
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .shopBrief {
+      font-size: 16px;
+      font-size: 500;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .shopImg {
+      margin: 20px 0;
+      img {
+        max-width: 80%;
+      }
+    }
+    .saleInfo {
+      display: flex;
+      justify-content: flex-end;
+      .price {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff4142;
+        &::before {
+          content: "¥";
+          font-size: 14px;
+          font-weight: normal;
+          display: inline;
+        }
+      }
+    }
+  }
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    .opreator {
+      flex:1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      .icon {
+        margin-right: 5px;
+        cursor: pointer;
+      }
+      .count {
+        font-size: 14px;
+      }
+    }
+    .active {
+      color: #f82727;
+    }
+  }
+}
