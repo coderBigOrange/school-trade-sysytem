@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import s from './style.module.less';
-import { Avatar, } from 'antd-mobile';
+import { 
+  Avatar, 
+  ImageViewer
+} from 'antd-mobile';
 import classnames from "classnames";
 import {
   LikeOutline, 
@@ -10,6 +13,7 @@ import {
 const Card = () => {
   const [isLike, setIsLike] = useState(false);
   const [isCollected, setIsCollected] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const onClickLike = () => {
     setIsLike(!isLike)
   }
@@ -28,13 +32,23 @@ const Card = () => {
         </div>
       </div>
       <div className={s.content}>
-        <div className={s.title}>美旅拉杆箱 行李箱男女万向轮旅行箱商务箱包登机密码箱  20英寸 银色 BJ9</div>
+        <div className={s.title}>
+          <span className={s.price}>99.8</span>
+          美旅拉杆箱 行李箱男女万向轮旅行箱商务箱包登机密码箱  20英寸 银色 BJ9
+        </div>
         <div className={s.shopBrief}>世纪东方六点十分酷酷酷酷酷酷酷酷酷酷酷上岛咖啡看了你的你速度快v哦看到了是v，六大门派上课的产品v速度快v没可能店里看没付款的口感纳斯达克麻烦了肯定是</div>
         <div className={s.shopImg}>
-          <img src="https://img10.360buyimg.com/mobilecms/s360x360_jfs/t1/117838/28/22055/206224/62441662E46016aa1/38e4645463def9ed.jpg!q70.dpg.webp" alt="" />
-        </div>
-        <div className={s.saleInfo}>
-          <div className={s.price}>99.8</div>
+          <img 
+            onClick={() => setIsVisible(true)}
+            src="https://img10.360buyimg.com/mobilecms/s360x360_jfs/t1/117838/28/22055/206224/62441662E46016aa1/38e4645463def9ed.jpg!q70.dpg.webp" 
+            alt="" 
+          />
+          <ImageViewer.Multi
+            visible={isVisible}
+            onClose={() => setIsVisible(false)}
+            defaultIndex={0}
+            images={['https://img10.360buyimg.com/mobilecms/s360x360_jfs/t1/117838/28/22055/206224/62441662E46016aa1/38e4645463def9ed.jpg!q70.dpg.webp']}
+          />
         </div>
       </div>
       <div className={s.footer}>

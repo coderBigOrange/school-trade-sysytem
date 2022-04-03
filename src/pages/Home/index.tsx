@@ -4,9 +4,9 @@ import Card from "../../components/Card";
 
 const Home: React.FC = () => {
   return (
-    <>
+    <div className={s.home}>
       <Card />
-    </>
+    </div>
   );
 }; 
 

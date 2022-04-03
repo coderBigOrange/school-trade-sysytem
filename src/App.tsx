@@ -11,6 +11,7 @@ import Message from './pages/Message';
 import User from './pages/User';
 import Page404 from './pages/404';
 import TabButton from './components/TabButton';
+import Register from './pages/Register';
 import s from './style.module.less'
 
 const App: React.FC = () => (
@@ -19,15 +20,16 @@ const App: React.FC = () => (
       <div className={s.main}>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path='/home' element={<Home />} />
           <Route path='/message' element={<Message />} />
           <Route path='/me' element={<User />} />
-          <Route path='/' element={< Home />} />
+          <Route path='/' element={< Login />} />
         </Routes>
       </div>
-      <div className={s.bottom}>
-        <TabButton />
-      </div>
+      {/* <div className={s.bottom}>
+        <TabButton /> 
+      </div> */}
     </div>
   </Router>
 )

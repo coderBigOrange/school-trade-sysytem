@@ -1,0 +1,23 @@
+// 接口测试
+
+### 获取用户列表
+get http://localhost:8080/users/list
+
+### 注册账号
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "userName": "测试2",
+  "userEmail": "2",
+  "password": "123456789"
+}
+
+### 登录
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+  "userEmail": "2",
+  "password": "123456789"
+}

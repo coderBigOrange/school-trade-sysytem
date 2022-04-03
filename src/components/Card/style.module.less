@@ -30,11 +30,22 @@
   .content {
     .title {
       margin-bottom: 10px;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      .price {
+        margin-right: 5px;
+        font-size: 18px;
+        color: #ff4142;
+        &::before {
+          content: "¥";
+          font-size: 14px;
+          font-weight: normal;
+          display: inline;
+        }
+      }
     }
     .shopBrief {
       font-size: 16px;
@@ -49,21 +60,6 @@
       margin: 20px 0;
       img {
         max-width: 80%;
-      }
-    }
-    .saleInfo {
-      display: flex;
-      justify-content: flex-end;
-      .price {
-        font-size: 18px;
-        font-weight: bold;
-        color: #ff4142;
-        &::before {
-          content: "¥";
-          font-size: 14px;
-          font-weight: normal;
-          display: inline;
-        }
       }
     }
   }
