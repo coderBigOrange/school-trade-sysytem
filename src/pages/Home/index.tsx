@@ -1,15 +1,13 @@
+//TODO: 这块的长列表后续可以使用react virtualized进行优化
 import React, { useState, useRef } from "react";
 import Card from "../../components/Card";
 import TabButton from "../../components/TabButton";
 import {
   SearchBar,
   InfiniteScroll,
-  DotLoading,
   Swiper,
   Tabs,
   Button,
-  NavBar,
-  Divider
 } from 'antd-mobile';
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import {EditSFill} from 'antd-mobile-icons'
@@ -101,9 +99,7 @@ const Home: React.FC = () => {
             })
           }
       </Swiper>
-      <div className={s.footer}>
-        <TabButton />
-      </div>
+      <TabButton />
     </div>
   );
 }; 

@@ -9,6 +9,9 @@ type PermissionProps = {
 
 export const PermissionAuth = (props: PermissionProps) => {
   const { element, pathname, auth } = props;
+  if(pathname === '/') {
+    return <Navigate to='/home' replace />
+  }
   const isLogin = !!localStorage.getItem('token');//暂时只通过localStorage的token字段判断是否登录
   //登录状态下如果访问登录页或者注册则直接跳转到首页
   if(isLogin) {

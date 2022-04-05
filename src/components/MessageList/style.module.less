@@ -1,0 +1,44 @@
+.card {
+  display: flex;
+  height: 70px;
+  padding-left: 10px;
+  align-items: center;
+  border-bottom: #bcbcbc4f 1px solid;
+  position: relative;
+  &:active {
+    background-color: #eaeaea;
+  }
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border: 1px solid transparent;
+    overflow: hidden;
+    border-radius: 12px;
+    img {
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  .content {
+    flex: 1;
+    margin-left: 10px;
+    .name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #000000a8;
+    }
+    .message {
+      font-size: 14px;
+      font-weight: 500;
+      color: #7b7b7b;
+    }
+  }
+  .time {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 13px;
+    color: #adadad;
+  }
+}
