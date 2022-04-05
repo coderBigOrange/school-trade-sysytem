@@ -3,8 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-var usersRouter = require('./routes/users');
+const {loginRouter} = require('./routes/login');
+const usersRouter = require('./routes/users');
+const auth = require('./middlewares/auth');
 
 var app = express();//创建express实例
 //处理跨域问题
@@ -31,9 +32,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//设置一些路由
-app.use('/users', usersRouter);
-
+//设置路由
+app.use('/', loginRouter);
+app.use('/users',auth,usersRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   console.log('404')

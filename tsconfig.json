@@ -17,6 +17,6 @@
       "jsx": "react-jsx",
       "noFallthroughCasesInSwitch": true
     },
-    "include": ["src", "typed-css.d.ts","./externals.d.ts"]
+    "include": ["src", "typed-css.d.ts","./externals.d.ts"],
   }
   // TODO: 稍微了解下ts的各项基础配置

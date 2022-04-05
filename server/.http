@@ -1,20 +1,21 @@
 // 接口测试
-
+//TODO: 已经签发的新的token，旧token依旧可用
 ### 获取用户列表
 get http://localhost:8080/users/list
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDg5OTAzMjAsImV4cCI6MTY0ODk5MzkyMH0.a3_qodLWxIEM0AxWHrHXyvffXj42oLK4l3cozw08NP8
+
 
 ### 注册账号
-POST http://localhost:8080/users/register
+POST http://localhost:8080/register
 Content-Type: application/json
 
 {
-  "userName": "测试2",
-  "userEmail": "2",
+  "userEmail": "1810410221@student.cumtb.edu.cn",
   "password": "123456789"
 }
 
 ### 登录
-POST http://localhost:8080/users/login
+POST http://localhost:8080/login
 Content-Type: application/json
 
 {

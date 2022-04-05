@@ -1,6 +1,7 @@
 import React from 'react';
 import { TabBar } from 'antd-mobile';
 import {useNavigate,useLocation} from 'react-router-dom';
+import s from './style.module.less';
 import {
   AppOutline,
   MessageOutline,
@@ -35,6 +36,7 @@ const TabButton: React.FC = () => {
     navigator(key) 
   } 
   return (
+    <div className={s.tabBar}>
       <TabBar activeKey={pathname} onChange={handleTabChange}>
         {
           tabs.map(item => {
@@ -44,6 +46,7 @@ const TabButton: React.FC = () => {
           })
         }
       </TabBar>
+    </div>
   )
 }
 

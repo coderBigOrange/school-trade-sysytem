@@ -1,18 +1,28 @@
-import React from 'react';
-import { Route, Navigate, useLocation} from 'react-router-dom';
-import { RouteConfig } from '.';
+import React, { ReactNode } from 'react';
+import {Navigate} from 'react-router-dom';
 
-export const PermissionAuth: React.FC<{configs: RouteConfig[]}> = (props) => {
-  const { configs } = props;
-  const { pathname } = useLocation(); 
-  const targetConfig = configs.find(item => item.path === pathname);
-  if(targetConfig && !targetConfig.auth) {
-    const { element,path }  = targetConfig;
-    return (
-      <Route path={path} element={element} />
-    )
+type PermissionProps = {
+  pathname: string;
+  element: ReactNode;
+  auth?: boolean;
+}
+
+export const PermissionAuth = (props: PermissionProps) => {
+  const { element, pathname, auth } = props;
+  const isLogin = !!localStorage.getItem('token');//暂时只通过localStorage的token字段判断是否登录
+  //登录状态下如果访问登录页或者注册则直接跳转到首页
+  if(isLogin) {
+    if(pathname === '/login' || pathname === '/register') {
+      return <Navigate to='/home' replace />
+    } else {
+      return element;
+    }
+  } else {
+    if(auth) {
+      //未登录状态下如果页面需权限访问,跳转至登录页面
+        return<Navigate to='/login' replace/>
+    } else {
+      return element
+    }
   }
-  return (
-    <Route path='*' element={<Navigate to={'/404'} />}/>
-  )
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Space,Divider } from 'antd-mobile';
-import { MailOutline, EyeInvisibleOutline } from  'antd-mobile-icons';
+import { Form, Input, Button, Space,  Toast} from 'antd-mobile';
+import { MailOutline, EyeInvisibleOutline,FrownOutline } from  'antd-mobile-icons';
 import s from './style.module.less';
 import {useNavigate} from 'react-router-dom';
 import { UserLogin } from "../../api/effect";
@@ -11,6 +11,7 @@ const { Item } = Form;
 const Login: React.FC = () =>{
 	const [emailTips, setEmailTips] = useState('');
 	const [passwordTips, setPasswordTips] = useState('');
+	const [isLogin, setIsLogin] = useState(false);
 	const navigator = useNavigate();
 	//TODO: 登录之后跳转到首页；注册页；找回密码页；
 	const onFinish = async (data) => {
@@ -18,9 +19,18 @@ const Login: React.FC = () =>{
 		const  isValidEmail = validEmail(userEmail);
 		const isValidPass = validPass(password);
 		if(isValidEmail === CheckState.OK && isValidPass === CheckState.OK) {
+			setIsLogin(true)
 			const res = await	UserLogin(data);
-			console.log(res);
-			navigator('/home')
+			setIsLogin(false);
+			if(res.code === 200) {
+				localStorage.setItem('token', res.data.token);
+				navigator('/home')
+			} else {
+				Toast.show({
+					content: res.message,
+					icon: <FrownOutline />
+				})
+			}
 		}	else {
 			if(isValidEmail === CheckState.EMPTY) {
 				setEmailTips('邮箱不能为空')
@@ -57,7 +67,7 @@ const Login: React.FC = () =>{
 						validateTrigger="onChange"
 						onFinish={onFinish}
 						footer={
-							<Button block type='submit' color='primary' size='large'>
+							<Button loading={isLogin} block type='submit' color='primary' size='large'>
 								登录
 							</Button>
 						}
@@ -86,3 +96,12 @@ const Login: React.FC = () =>{
 }
 
 export default Login;
+
+/**
+ * 整个登录过程
+ * 用户登录
+ * 后端认证后将利用set cookie将token返回
+ * 前端通过查验cookie是否携带token判断登录状态,并且重定向
+ * 前端向后端请求，后端检查token状态，如果发现token过期返回401， 前端感知后重定向至登录页面刷新token;
+ *
+ */
