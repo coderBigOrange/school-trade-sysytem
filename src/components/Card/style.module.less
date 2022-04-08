@@ -1,8 +1,6 @@
 .card {
-  max-height: 70%;
   margin: 10px;
-  padding: 0 10px;
-  overflow: hidden;
+  padding: 5px 10px;
   border-radius: 15px;
   background: white;
   .header {
@@ -28,6 +26,8 @@
     }
   }
   .content {
+    max-width: 400px;
+    overflow: hidden;
     .title {
       margin-bottom: 10px;
       font-size: 20px;
@@ -58,9 +58,8 @@
     }
     .shopImg {
       margin: 20px 0;
-      img {
-        max-width: 80%;
-      }
+      display: flex;
+      flex-wrap: wrap;
     }
   }
   .footer {

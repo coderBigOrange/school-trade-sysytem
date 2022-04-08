@@ -2,7 +2,7 @@
 //TODO: 已经签发的新的token，旧token依旧可用
 ### 获取用户列表
 get http://localhost:8080/users/list
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDg5OTAzMjAsImV4cCI6MTY0ODk5MzkyMH0.a3_qodLWxIEM0AxWHrHXyvffXj42oLK4l3cozw08NP8
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDkzODI3NjEsImV4cCI6MTY0OTM4NjM2MX0.ErE4CN6rKhgd8QDf6IDnaBee9zK5xPZIdQxRCXv96Qg
 
 
 ### 注册账号
@@ -22,3 +22,22 @@ Content-Type: application/json
   "userEmail": "2",
   "password": "123456789"
 }
+
+### 发布商品
+POST http://localhost:8080/users/publish
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDkyOTg1ODUsImV4cCI6MTY0OTMwMjE4NX0.KTms9jZe1FYJnqnERZOG2xtoNst2hfaFNG28Ir_540M
+Content-Type: application/json
+
+{
+  "shopTitle": "美旅拉杆箱 行李箱男女万向轮旅行箱商务箱包登机密码箱  20英寸 银色 BJ9",
+  "shopDescription": "撒酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷开始的的开发模式看到过开幕的开发马铃薯淀粉了",
+  "shopImg": [
+    "https://img10.360buyimg.com/mobilecms/s360x360_jfs/t1/117838/28/22055/206224/62441662E46016aa1/38e4645463def9ed.jpg!q70.dpg.webp"
+  ],
+  "shopSort": 1,
+  "shopPrice": 100,
+  "shopOwnerEmail": "1810410221@student.cumtb.edu.cn"
+}
+
+### 获取商品列表
+get http://localhost:8080/shops/shopList?shopSort=1&page=0

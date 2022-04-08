@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const {loginRouter} = require('./routes/login');
 const usersRouter = require('./routes/users');
+const shopRouter = require('./routes/shops')
+const mock = require('./routes/mock');
 const auth = require('./middlewares/auth');
 
 var app = express();//创建express实例
@@ -35,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //设置路由
 app.use('/', loginRouter);
 app.use('/users',auth,usersRouter)
+app.use('/shops',shopRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   console.log('404')

@@ -26,17 +26,17 @@ export const UserRegister = (data: {
   })
 }
 
-export const GetShopList = () => {
-  
-}
-
 export const GetUserInfo = () => {
 
 }
 
-export const MockGetShopList = () => {
-  let promise = new Promise((resovle: ((value: number[]) => void), reject) => {
-    setTimeout(() => resovle([1,2,3,4,5]), 1000)
+export const GetShopList = async (data: {
+  shopSort: number,
+  page: number
+}) => {
+  return request<any[]>({
+    url: '/shops/shopList',
+    method: 'get',
+    params: data
   })
-  return promise;
 }
