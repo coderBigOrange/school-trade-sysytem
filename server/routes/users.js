@@ -28,7 +28,7 @@ router.post('/publish', async(req, res, next) => {
   const {
     shopTitle,
     shopDescription,
-    shopImg,
+    shopImgs,
     shopSort,
     shopPrice,
     shopOwnerEmail
@@ -36,7 +36,7 @@ router.post('/publish', async(req, res, next) => {
   const shop = await Shop.create({
     shopTitle,
     shopDescription,
-    shopImg,
+    shopImg:shopImgs,
     shopSort,
     shopOwnerEmail,
     shopPrice

@@ -2,6 +2,7 @@
 //TODO: 数据存入store避免切换时多次请求长列表
 //TODO GET请求没有拿到数据的问题，后端数据返回条数限制，应该分页 solved
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Card from "../../components/Card";
 import TabButton from "../../components/TabButton";
 import {
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(1);
   const [pageIdx, setPageIdx] = useState(1);
   const swiperRef = useRef<SwiperRef>(null)
+  const navigate = useNavigate();
 
   const loadMore = async () => {
     const res = await GetShopList({
@@ -80,6 +82,7 @@ const Home: React.FC = () => {
               size="small"
               shape="rounded"
               fill="solid"
+              onClick={() => { navigate('/publish')}}
             >
               <EditSFill />
               <span className={s.text}>发布</span>

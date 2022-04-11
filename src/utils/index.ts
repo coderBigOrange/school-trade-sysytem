@@ -104,17 +104,15 @@ export function timeFromNow(value) {
   }
 }
 
-
-export default {
-  validEmail,
-  validPhone,
-  validUserName,
-  validCode,
-  validPass,
-  userName,
-  validateMainName2,
-  validateNickName,
-  formatDate,
-  timeFromNow,
-  formatHour
+export async function uploadImg(file: File) {
+  console.log(file)
+  await new Promise(resolve => {
+    setTimeout(() => {
+      resolve('ok');
+    },1000)
+  })
+  return {
+    url: URL.createObjectURL(file),
+    extra: file,
+  }
 }

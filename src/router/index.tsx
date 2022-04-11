@@ -8,6 +8,7 @@ import Home from '../pages/Home';
 import Message from '../pages/Message';
 import User from '../pages/User';
 import Page404 from '../pages/404';
+import Publish from "../pages/Publish";
 
 export type RouteConfig = {
   path: string; 
@@ -26,6 +27,11 @@ export const routerConfig:RouteConfig[] = [
 	{
 		path: '/message',
 		element: <Message />,
+		auth: true
+	},
+	{
+		path: '/publish',
+		element: <Publish />,
 		auth: true
 	},
 	{

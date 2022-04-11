@@ -17,6 +17,8 @@
     "mockjs": "^1.1.0",
     "mongoose": "^6.2.9",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "qiniu": "^7.4.0",
+    "qiniu-js": "^3.4.0"
   }
 }

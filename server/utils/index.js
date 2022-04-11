@@ -1,5 +1,5 @@
-const e = require("express");
 const { User } = require("../model/User");
+const qiniu = require('qiniu')
 
 const getShopUserInfo = async (shop) => {
   return new Promise((resolve, reject) => {
@@ -57,7 +57,23 @@ const promisesWrap = (dataSouce, asycnFn) => {
   })
 }
 
+const getQiNiuToken = () => {
+  // 创建上传凭证
+const accessKey = '69m1NUcY37kSmSLT1GjeGUnl02T_yFJEyD8ojoqC'
+const secretKey = 'SnE27ZqaSySKzD31M6fAuvg2DtgofYQNt_fhO_Ry'
+// 鉴权对象 mac
+const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+const options = {
+  scope: 'orange-imgs',
+  expires: 7200
+}
+const putPolicy = new qiniu.rs.PutPolicy(options)
+const uploadToken = putPolicy.uploadToken(mac)
+return uploadToken;
+}
+
 module.exports = {
   getShopUserInfo,
-  promisesWrap
+  promisesWrap,
+  getQiNiuToken
 }

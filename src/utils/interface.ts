@@ -8,3 +8,14 @@ export interface IResponseData<T = any>{
   message: string;
   data: T;
 }
+
+export enum ShopSort {
+  STUDY  = 1,
+  DIGITAL = 2,
+  SPORTS = 3,
+  ART = 4,
+  CLOTHES = 5,
+  DAILY_NECESSITIES = 6,
+  FOOD = 7,
+  OTHER = 8
+}

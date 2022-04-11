@@ -40,3 +40,25 @@ export const GetShopList = async (data: {
     params: data
   })
 }
+
+export const PublishShop = async(data: {
+  shopTitle: string;
+  shopDescription: string;
+  shopImg: string[];
+  shopSort: number;
+  shopPrice: number;
+  shopOwnerEmail: string;
+}) => {
+  return request<any>({
+    url: '/users/publish',
+    method: 'post',
+    data
+  })
+} 
+
+export const GetQiNiuToken = () => {
+  return request<{token: string; key: string}>({
+    url: '/qiniu/token',
+    method: 'get'
+  })
+}

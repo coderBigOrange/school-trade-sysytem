@@ -25,7 +25,7 @@ Content-Type: application/json
 
 ### 发布商品
 POST http://localhost:8080/users/publish
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDkyOTg1ODUsImV4cCI6MTY0OTMwMjE4NX0.KTms9jZe1FYJnqnERZOG2xtoNst2hfaFNG28Ir_540M
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDk2NjI4NjEsImV4cCI6MTY0OTY2NjQ2MX0.V79E2inmue9AwhZJlyuHwi3ddqw_1QcGS-aUB4_lYRw
 Content-Type: application/json
 
 {
@@ -41,3 +41,6 @@ Content-Type: application/json
 
 ### 获取商品列表
 get http://localhost:8080/shops/shopList?shopSort=1&page=0
+
+### 获取七牛云的上传token
+get  http://localhost:8080/qiniu/token

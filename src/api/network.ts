@@ -5,7 +5,10 @@ import { IResponseData } from '../utils/interface';
 // 创建axios实例
 const service = axios.create({
     baseURL: 'http://localhost:8080/',
-    timeout: 10000
+    timeout: 10000,
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    }
 });
 
 // 请求拦截器
