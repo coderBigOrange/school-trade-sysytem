@@ -9,11 +9,13 @@ import Message from '../pages/Message';
 import User from '../pages/User';
 import Page404 from '../pages/404';
 import Publish from "../pages/Publish";
+import MessageDetail from "../pages/MessageDetail";
 
 export type RouteConfig = {
   path: string; 
   element: ReactNode; 
-  auth?: boolean
+	childRoutes?: RouteConfig[];
+  auth?: boolean;
 }
 export const routerConfig:RouteConfig[] = [
 	{
@@ -27,7 +29,18 @@ export const routerConfig:RouteConfig[] = [
 	{
 		path: '/message',
 		element: <Message />,
-		auth: true
+		auth: true,
+		childRoutes: [
+			{
+				path: 'detail',
+				element: <MessageDetail />,
+			}
+		]
+	},
+	{
+		path: '/message/detail',
+		element: <MessageDetail />,
+		auth: true,
 	},
 	{
 		path: '/publish',
@@ -61,13 +74,21 @@ const MyRoutes = () => {
 			<Routes>   
 				{
 					routerConfig.map(item => {
-						const { element, auth, path} = item;
-						const childElement = PermissionAuth({
+						const { element, auth, path, childRoutes} = item;
+						//TODO: 子路由匹配问题
+						const {childRouteElements, routeElement} = PermissionAuth({
 							pathname,
 							element,
-							auth
+							auth,
+							childRoutes
 						})
-						return <Route key={path} path={path} element={childElement} />
+						return (
+							<Route 
+								key={path} 
+								path={path} 
+								element={routeElement} 
+							/>
+						)
 					})
 				}
 				<Route path="*" element={<Navigate to="/404" replace />} />

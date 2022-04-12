@@ -2,6 +2,7 @@ import {
   SwipeAction
 } from 'antd-mobile'
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import s from './style.module.less';
 
 type Message = {
@@ -47,10 +48,14 @@ const MessageCard: React.FC<Message> = (props) => {
     avatar,
     messageBrief,
   } = props;
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/message/detail')
+  }
   return (
     <div 
       className={s.card}
-      onClick={() => {console.log(name)}}
+      onClick={handleClick}
     >
       <div className={s.avatar}>
         <img src={avatar} alt="头像" />

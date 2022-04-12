@@ -2,7 +2,11 @@
 //TODO: 已经签发的新的token，旧token依旧可用
 ### 获取用户列表
 get http://localhost:8080/users/list
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDkzODI3NjEsImV4cCI6MTY0OTM4NjM2MX0.ErE4CN6rKhgd8QDf6IDnaBee9zK5xPZIdQxRCXv96Qg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDk3NTI5MTYsImV4cCI6MTY0OTc1NjUxNn0.h976P5W_ol2hY0ns-4ioShWOybE891a1v-w8XdfoLRM
+
+### 获取用户消息列表
+get http://localhost:8080/users/messageList?userEmail=1810410221@student.cumtb.edu.cn
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDk3NTI5MTYsImV4cCI6MTY0OTc1NjUxNn0.h976P5W_ol2hY0ns-4ioShWOybE891a1v-w8XdfoLRM
 
 
 ### 注册账号

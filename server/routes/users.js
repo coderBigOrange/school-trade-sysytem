@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../model/User')
 const { Shop } = require('../model/Shop')
+const { promisesWrap, getMessageInfo} = require('../utils/index')
 // 获取用户信息
 router.get('/info', async (req, res, next) => {
   const user = await User.findOne({
@@ -10,6 +11,23 @@ router.get('/info', async (req, res, next) => {
     code: 200,
     message: '获取成功',
     data: user
+  })
+})
+
+//获取用户消息列表
+router.get('/messageList', async (req, res, next) => {
+  const { userEmail } = req.query;
+  //拿到与用户相关的信息id
+  const user = await User.find({
+    userEmail: userEmail
+  })
+  const messageIds = user.userMessageList;
+  console.log(messageIds)
+  const data = await promisesWrap(messageIds, getMessageInfo)
+  res.send({
+    code: 200,
+    message: '获取成功',
+    data
   })
 })
 
@@ -23,7 +41,7 @@ router.get('/list', async(req, res, next)=>{
   })
 })
 
-//发布商品
+//用户发布商品
 router.post('/publish', async(req, res, next) => {
   const {
     shopTitle,

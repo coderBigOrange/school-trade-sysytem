@@ -1,5 +1,7 @@
 // 引入mongodb
 const mongoose = require('../db/mongodb')
+const { Schema } = require('../db/mongodb')
+
 const bcrypt = require('bcrypt')
 // 建立用户表
 const UserSchema = new mongoose.Schema({
@@ -32,10 +34,8 @@ const UserSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
-	updateTime: {
-		type: Date,
-		default: Date.now,
-	}
+	userMessageList: [Schema.Types.ObjectId],//存储该用户消息列表展示的消息（时间最近一条）
+	userPublishList: [Schema.Types.ObjectId]
 })
 
 // 建立用户数据库模型
