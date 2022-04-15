@@ -1,7 +1,39 @@
+const { Message } = require('../model/Message')
+const { User } = require('../model/User')
+const { updateMessageList } = require('.')
+const users = {};
 
 const socketCallBack = (socket)=> {
   console.log('一位用户连接', socket.id)
-  socket.emit('greet')
+  socket.on('chat', async(messageObj) => {
+    const {
+      recieverEmail,
+      senderEmail,
+      content
+    } = messageObj;
+    const res = await Message.create(messageObj)
+    const sender = await User.findOne({
+      userEmail: senderEmail
+    })
+    const reciever = await User.findOne({
+      userEmail: recieverEmail
+    })
+    await updateMessageList(sender, reciever, content);
+    await updateMessageList(reciever, sender, content);
+    await User.updateMany(
+      {$or: [
+        {userEmail: recieverEmail},
+        {userEmail: senderEmail}
+      ]},
+      {$push: {userMessageList: res._id}}
+    )
+    socket.emit(`sendOver${senderEmail}`,{
+      content,
+      email: senderEmail,
+      isSend: true
+    })
+    socket.emit(`recicveMess${recieverEmail}`,messageObj)
+  })
 }
 
 module.exports= socketCallBack;

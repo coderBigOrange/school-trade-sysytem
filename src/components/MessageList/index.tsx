@@ -4,15 +4,9 @@ import {
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import s from './style.module.less';
+import { MessageType } from '../../utils/interface'; 
 
-type Message = {
-  avatar: string;
-  name: string;
-  messageBrief: string;
-  time?: Number;
-}
-
-const MessageList: React.FC<{data: Message[]}> = (props) => {
+const MessageList: React.FC<{data: MessageType[]}> = (props) => {
   const { data = [] } = props;
   return (
     <>
@@ -42,11 +36,12 @@ const MessageList: React.FC<{data: Message[]}> = (props) => {
   )
 }
 
-const MessageCard: React.FC<Message> = (props) => {
+const MessageCard: React.FC<MessageType> = (props) => {
   const {
     name,
     avatar,
-    messageBrief,
+    content,
+    createTime
   } = props;
   const navigate = useNavigate();
   const handleClick = () => {
@@ -62,7 +57,7 @@ const MessageCard: React.FC<Message> = (props) => {
       </div>
       <div className={s.content}>
         <div className={s.name}>{name}</div>
-        <div className={s.message}>{messageBrief}</div>
+        <div className={s.message}>{content}</div>
       </div>
       <div className={s.time}>2020-12-31</div>
     </div>

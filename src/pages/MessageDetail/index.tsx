@@ -1,4 +1,4 @@
-import React  from "react";
+import React, { useState, useRef}  from "react";
 import s from './style.module.less';
 import { useNavigate} from 'react-router-dom';
 import {
@@ -8,15 +8,29 @@ import {
 } from 'antd-mobile';
 import debounce from 'lodash/debounce'
 import SingleMessage from "./SingleMessage";
+import { useAppSelector } from "../../store/hooks";
 
 const MessageDetail:React.FC = () => {
+  const [message, setMessage] = useState<string>('')
+  const messRef = useRef(null);
   const navigate = useNavigate();
+  const socket = window['socket'];
+  const userInfo = useAppSelector(state => state.user)
+  const allMessages = useAppSelector(state => state.message)
 
   const handleInput = (value: string) => {
-    console.log(value)
+    setMessage(value);
   }
   const sendMessage = () => {
-    console.log('发送')
+    const tempMessage = message;
+    socket.emit('chat', {
+      content: tempMessage,
+      senderEmail: userInfo.email || '1810410221@student.cumtb.edu.cn',
+      recieverEmail: '1710410221@student.cumtb.edu.cn'
+    })
+
+    setMessage('');
+    (messRef.current as any).clear();
   }
   return (
     <div className={s.messageDetail}>
@@ -26,15 +40,31 @@ const MessageDetail:React.FC = () => {
         马斯克
       </NavBar>
       <div className={s.body}>
-        <SingleMessage 
-          userAvatar="https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-          content="你好"
-          isSend={false}
-        />
+        {
+          allMessages.map((item, index) => {
+            const {
+              content,
+              avatar,
+              isSend,
+              email
+            } = item;
+            return (
+              <SingleMessage 
+                key={index}
+                userAvatar={avatar}
+                content={content}
+                isSend={isSend}
+                isOthers={email !== (userInfo.email || '1810410221@student.cumtb.edu.cn')}
+              />
+            )
+          })
+        }
+        
       </div>
       <div className={s.footer}>
         <div className={s.input}>
           <TextArea 
+            ref={messRef}
             autoSize={{minRows: 1, maxRows: 5}}
             rows={1}
             onChange={debounce(handleInput, 200)}

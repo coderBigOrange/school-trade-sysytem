@@ -6,9 +6,6 @@ import { IResponseData } from '../utils/interface';
 const service = axios.create({
     baseURL: 'http://localhost:8080/',
     timeout: 10000,
-    headers: {
-      Authorization: localStorage.getItem('token') || ''
-    }
 });
 
 // 请求拦截器
@@ -24,8 +21,11 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
     response => {
+      if(response.data.code === 401) {
+        localStorage.setItem('token', '')
+      }
       return response;
-    },
+    }, 
     error => {
       return Promise.reject(error);
     }

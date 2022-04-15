@@ -35,7 +35,19 @@ const UserSchema = new mongoose.Schema({
 		default: Date.now
 	},
 	userMessageList: [Schema.Types.ObjectId],//存储该用户消息列表展示的消息（时间最近一条）
-	userPublishList: [Schema.Types.ObjectId]
+	userPublishList: [Schema.Types.ObjectId],
+	messageList: [
+		{
+			email: String,
+			content: String,
+			avatar: String,
+			name: String,
+			createTime: {
+				type: Date,
+				default: Date.now
+			},
+		}
+	]
 })
 
 // 建立用户数据库模型

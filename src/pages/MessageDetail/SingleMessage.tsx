@@ -6,16 +6,21 @@ type SingleMessageProps = {
   content: string;
   userAvatar: string;
   isSend: boolean;
+  isOthers?: boolean
 }
 
 const SingleMessage: React.FC<SingleMessageProps> = (props) => {
   const {
     content,
     userAvatar,
-    isSend
+    isSend,
+    isOthers
   } = props || {};
   return (
-    <div className={s.message}>
+    <div 
+      className={s.message}
+      style={{flexDirection: isOthers ? 'row-reverse' : 'unset'}}
+    >
       {
         !isSend && (
           <div className={s.state}>

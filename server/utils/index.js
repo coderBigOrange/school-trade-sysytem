@@ -44,16 +44,16 @@ const getMessageInfo = async (messageId) => {
     _id: messageId 
   }).exec().then(message => {
     const { 
-      senderEmail,
-      recieverEmail,
+      selfEmail,
+      otherEmail,
       content,
       createTime
     } = message;
 
     return User.find({
       $or: [
-        {userEmail: senderEmail},
-        {userEmail: recieverEmail}
+        {userEmail: selfEmail},
+        {userEmail: otherEmail}
       ]
     }).exec().then(users => {
       return users.map(user => {
@@ -104,11 +104,41 @@ const uploadToken = putPolicy.uploadToken(mac)
 return uploadToken;
 }
 
+const updateMessageList = async (self,other, content) => {
+  let selfMessageList = self.messageList;
+  const {
+    userEmail,
+    userAvatar,
+    userName
+  } = other;
+  if(selfMessageList && selfMessageList.length) {
+    selfMessageList.forEach(item => {
+      if(item.email === userEmail) {
+        item.content = content;
+        item.avatar = userAvatar
+        item.name = userName
+        item.createTime = new Date();
+      }
+    })
+  } else {
+    selfMessageList = [{
+      email: userEmail,
+			content: content,
+			avatar: userAvatar,
+			name: userName,
+    }]
+  }
+  await User.updateOne(
+    {userEmail: self.userEmail},
+    {$set: {messageList: selfMessageList}}
+  )
+}
 
 
 module.exports = {
   getShopUserInfo,
   promisesWrap,
   getQiNiuToken,
-  getMessageInfo
+  getMessageInfo,
+  updateMessageList
 }

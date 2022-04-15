@@ -6,13 +6,17 @@ import {useNavigate} from 'react-router-dom';
 import { UserLogin } from "../../api/effect";
 import { validEmail, validPass } from "../../utils";
 import { CheckState } from "../../utils/interface";
+import { useAppDispatch } from "../../store/hooks";
+import { updateAll } from '../../store/modules/user'
 
 const { Item } = Form;
 const Login: React.FC = () =>{
 	const [emailTips, setEmailTips] = useState('');
 	const [passwordTips, setPasswordTips] = useState('');
 	const [isLogin, setIsLogin] = useState(false);
-	const navigator = useNavigate();
+	const dispatch = useAppDispatch();
+	const navigator = useNavigate(); 
+
 	//TODO: 登录之后跳转到首页；注册页；找回密码页；
 	const onFinish = async (data) => {
 		const { userEmail, password} = data;
@@ -23,13 +27,25 @@ const Login: React.FC = () =>{
 			const res = await	UserLogin(data);
 			setIsLogin(false);
 			if(res.code === 200) {
-				localStorage.setItem('token', res.data.token);
+				const {user, token} = res.data;
+				const {
+					userName,
+					userEmail,
+					userAvatar
+				} = user;
+				//将返回的用户信息存入store中
+				dispatch(updateAll({
+					name: userName,
+					email: userEmail,
+					avatar: userAvatar,
+					}))
+					localStorage.setItem('token',token)
 				navigator('/home')
 			} else {
 				Toast.show({
 					content: res.message,
 					icon: <FrownOutline />
-				})
+				});
 			}
 		}	else {
 			if(isValidEmail === CheckState.EMPTY) {

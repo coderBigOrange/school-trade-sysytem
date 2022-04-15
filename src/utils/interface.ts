@@ -19,3 +19,10 @@ export enum ShopSort {
   FOOD = 7,
   OTHER = 8
 }
+export type MessageType = {
+	email: string;
+	content: string;
+	avatar: string;
+	name: string;
+	createTime: string;
+}

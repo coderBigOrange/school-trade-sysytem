@@ -38,6 +38,7 @@ router.post('/login', async (req, res, next) => {
     userEmail: email
   });
   if(user) {
+    const user = await User.findOne({userEmail: email});
     const userPassword =  (await User.findOne({userEmail: email}).select('password')).password
     const isValidPassWord =  bcrypt.compareSync(password, userPassword)
     if(!isValidPassWord){
@@ -51,7 +52,8 @@ router.post('/login', async (req, res, next) => {
       code: 200,
       message: '欢迎登录',
       data: {
-        token
+        token,
+        user
       }
     })
     

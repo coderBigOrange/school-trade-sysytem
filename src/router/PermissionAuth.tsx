@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import {Navigate, Route} from 'react-router-dom';
+import {useAppSelector} from '../store/hooks'
 
 type PermissionProps = {
   pathname: string;
@@ -13,12 +14,13 @@ type PermissionProps = {
 
 export const PermissionAuth = (props: PermissionProps) => {
   const { element, pathname, auth, childRoutes = [] } = props;
+  // const token = useAppSelector(state => state.user.token)
   if(pathname === '/') {
     return {
       routeElement: <Navigate to='/home' replace />
     }
   }
-  const isLogin = !!localStorage.getItem('token');//暂时只通过localStorage的token字段判断是否登录
+  const isLogin = !!localStorage.getItem('token')
   //登录状态下如果访问登录页或者注册则直接跳转到首页
   if(isLogin) {
     if(pathname === '/login' || pathname === '/register') {

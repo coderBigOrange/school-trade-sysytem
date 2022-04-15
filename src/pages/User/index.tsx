@@ -4,13 +4,15 @@ import React from "react";
 import TabButton from "../../components/TabButton";
 import VerticalFlexBox from "../../components/VerticalFlexBox";
 import s from './style.module.less';
-import { Avatar, List } from "antd-mobile";
+import { Avatar, Button, List } from "antd-mobile";
 import { SetOutline } from 'antd-mobile-icons'
 import IconWrap from "../../components/IconWrap";
+import { useAppSelector } from "../../store/hooks";
 
 const { Item } = List;
 
 const User: React.FC = () =>{
+	const user = useAppSelector(state => state.user)
 	return (
 		<div className={s.user}>
 			<div className={s.baseInfo}>
@@ -18,10 +20,10 @@ const User: React.FC = () =>{
 					<Avatar 
 						style={{'--size': '70px', '--border-radius': '50%'}}
 						fit='contain'
-						src="https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+						src={user.avatar}
 					/>
 					<div className={s.description}>
-						<div className={s.userName}>埃隆马斯克</div>
+						<div className={s.userName}>{user.name}</div>
 						<div className={s.otherInfo}>机电学院计算机2班</div>
 					</div>
 				</div>

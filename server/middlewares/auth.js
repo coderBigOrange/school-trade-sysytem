@@ -8,14 +8,13 @@ const auth = async (req, res, next) => {
       console.log(err);
       return false;
     } else {
-      //TODO: 处理token过期逻辑
       return decoded
     }
   })
   if(!jwtVerify) {
     res.send({
       code: 401,
-      message: '没有权限',
+      message: 'token无效或过期',
     })
   } else {
     next();

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TabButton from "../../components/TabButton";
 import s from './style.module.less'
 import {
-	NavBar
+	NavBar, Toast
 } from 'antd-mobile';
 import {
 	HeartFill,
@@ -12,15 +12,38 @@ import {
 } from 'antd-mobile-icons';
 import IconOperation from "../../components/IconOperation";
 import MessageList from "../../components/MessageList";
-const users = [
-  {
-    avatar:
-      'https://images.unsplash.com/photo-1548532928-b34e3be62fc6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ',
-    name: 'Novalee Spicer',
-    messageBrief: 'Deserunt dolor ea eaque eos',
-  }
-]
+import { GetMessageList } from "../../api/effect";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { MessageType } from "../../utils/interface";
+import { updateAll } from "../../store/modules/user";
+
 const Message: React.FC = () =>{
+	const userEmail = useAppSelector(state => state.user.email)
+	const [messageList, setMessaeList] = useState<MessageType[]>([])
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		(async () => {
+			const res = await GetMessageList({userEmail})
+			const {	
+				code,
+				message,
+				data
+			} = res;
+			if(code === 200) {
+				console.log(userEmail, data)
+				setMessaeList(data)
+			} else if(code === 401){
+				Toast.show('身份认证过期，请重新登录')
+				// dispatch(updateAll({
+				// 	name: '',
+				// 	avatar: '',
+				// 	email: '',
+				// }))
+			} else {
+				Toast.show(message)
+			}
+		})();
+	}, [userEmail])
 	return (
 		<div className={s.message}>
 			<div className={s.header}>
@@ -69,7 +92,7 @@ const Message: React.FC = () =>{
 				</div>
 			</div>
 			<div className={s.body}>
-				<MessageList data={users}/>
+				<MessageList data={messageList}/>
 			</div>
 			<TabButton />
 		</div>

@@ -14,11 +14,11 @@ router.get('/info', async (req, res, next) => {
   })
 })
 
-//获取用户消息列表
-router.get('/messageList', async (req, res, next) => {
+//获取与用户相关的所有的消息（发出和收到的）
+router.get('/allMessages', async (req, res, next) => {
   const { userEmail } = req.query;
   //拿到与用户相关的信息id
-  const user = await User.find({
+  const user = await User.findOne({
     userEmail: userEmail
   })
   const messageIds = user.userMessageList;
@@ -30,7 +30,20 @@ router.get('/messageList', async (req, res, next) => {
     data
   })
 })
-
+//获取用户的消息列表，列表页展示用
+router.get('/messageList', async (req, res, next) => {
+  const { userEmail } = req.query;
+  //拿到与用户相关的信息id
+  const user = await User.findOne({
+    userEmail: userEmail
+  })
+  const data = user.messageList;
+  res.send({
+    code: 200,
+    message: '获取成功',
+    data
+  })
+})
 // 获取用户列表
 router.get('/list', async(req, res, next)=>{
   const user = await User.find()
