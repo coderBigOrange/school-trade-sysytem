@@ -2,27 +2,47 @@ import {
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit';
+import {SimpleMessage} from '../../utils/interface';
+import cloneDeep from 'lodash/cloneDeep'
 
-interface Message {
-  content: string;//存储消息内容
-  avatar: string;//存储发送者的头像
-  email: string;//存储发送者的邮箱
-  isSend: boolean;
+type UserMessageType = Record<string, SimpleMessage[]>
+
+const initialState: UserMessageType = {
+  fake: []
 }
-
-const initialState: Message[] = []
 
 export const messageSlice = createSlice({
   name: 'message',
   initialState,
   reducers: {
-    insertMessage: (state, actions: PayloadAction<Message> ) => {
-      state.push(actions.payload)
+    initailMessages: (state, action: PayloadAction<{
+      email: string;
+      messages: SimpleMessage[]
+    }>) => {
+      const {
+        email,
+        messages
+      } = action.payload;
+      state[email] = messages;
+    } ,
+    insertMessage: (state, action: PayloadAction<{
+      email: string;
+      message: SimpleMessage
+    }> ) => {
+      const {
+        email,
+        message
+      } = action.payload;
+        if(state[email]) {
+          state[email].push(message)
+        } else {
+          state[email] = [message]
+        }
     }
   }
 })
 
 //TODO: store操作和请求相结合可以学习一下
 
-export const { insertMessage  } = messageSlice.actions;
+export const { insertMessage, initailMessages } = messageSlice.actions;
 export default messageSlice.reducer;

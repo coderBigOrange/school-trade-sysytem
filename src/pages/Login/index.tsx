@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import { UserLogin } from "../../api/effect";
 import { validEmail, validPass } from "../../utils";
 import { CheckState } from "../../utils/interface";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch } from "../../hooks";
 import { updateAll } from '../../store/modules/user'
 
 const { Item } = Form;

@@ -4,12 +4,16 @@
 get http://localhost:8080/users/list
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NDk4NTM0NDEsImV4cCI6MTY0OTg1NzA0MX0.eI060hkfw_rAmpqVHt-n49SLo3JWxZOcfaZcVWeKGfg
 
-### 获取用户所有消息
+### 获取所有消息
 get http://localhost:8080/users/allMessages?userEmail=1710410221@student.cumtb.edu.cn
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NDk5MjQ4NjksImV4cCI6MTY0OTkyODQ2OX0.AFXTTAZWblB1YjWLyoXhm-AU9Zl-Z3oaZeVBIdHoimg
 
-### 获取用户消息列表
-get http://localhost:8080/users/messageList?userEmail=1810410221@student.cumtb.edu.cn
+### 获取用户之间的消息
+get http://localhost:8080/users/messages?selfEmail=1810410221@student.cumtb.edu.cn&otherEmail=1710410221@student.cumtb.edu.cn
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwMDY0OTEsImV4cCI6MTY1MDAxMDA5MX0.3iSjvo2dTUUgSP_WF9kHAPA4xqF58y9Z_UnP6SB1KhI
+
+### 获取消息列表
+get http://localhost:8080/users/messageList?userEmail=1710410221@student.cumtb.edu.cn
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NDk5NDEzNDYsImV4cCI6MTY0OTk0NDk0Nn0.CBvnWIr-5--4kdKpf8V7WNGRHFFH9h3PTC9RIpuj5wE
 
 ### 注册账号

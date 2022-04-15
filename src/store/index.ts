@@ -7,13 +7,15 @@ import {
 } from "@reduxjs/toolkit";
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import userSlice from './modules/user';
-import messageSlice from "./modules/message";
+import user from './modules/user';
+import message from "./modules/message";
+import messageList from './modules/messageList'
 import { persistStore } from 'redux-persist';
 
 const reducers = combineReducers({
-  user: userSlice,
-  message: messageSlice
+  user,
+  message,
+  messageList
 })
 
 const persistConfig = {

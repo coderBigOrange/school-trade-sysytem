@@ -5,6 +5,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import s from './style.module.less';
 import { MessageType } from '../../utils/interface'; 
+import { formatDate } from '../../utils';
 
 const MessageList: React.FC<{data: MessageType[]}> = (props) => {
   const { data = [] } = props;
@@ -41,11 +42,12 @@ const MessageCard: React.FC<MessageType> = (props) => {
     name,
     avatar,
     content,
-    createTime
+    createTime,
+    email
   } = props;
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/message/detail')
+    navigate(`/message/detail/${name}/${encodeURIComponent(avatar)}/${email}`)
   }
   return (
     <div 
@@ -59,7 +61,7 @@ const MessageCard: React.FC<MessageType> = (props) => {
         <div className={s.name}>{name}</div>
         <div className={s.message}>{content}</div>
       </div>
-      <div className={s.time}>2020-12-31</div>
+      <div className={s.time}>{formatDate(createTime)}</div>
     </div>
   )
 }

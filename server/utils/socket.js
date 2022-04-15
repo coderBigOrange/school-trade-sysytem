@@ -1,7 +1,6 @@
 const { Message } = require('../model/Message')
 const { User } = require('../model/User')
 const { updateMessageList } = require('.')
-const users = {};
 
 const socketCallBack = (socket)=> {
   console.log('一位用户连接', socket.id)
@@ -27,12 +26,8 @@ const socketCallBack = (socket)=> {
       ]},
       {$push: {userMessageList: res._id}}
     )
-    socket.emit(`sendOver${senderEmail}`,{
-      content,
-      email: senderEmail,
-      isSend: true
-    })
-    socket.emit(`recicveMess${recieverEmail}`,messageObj)
+    socket.emit(`sendOver${senderEmail}`,res)
+    socket.emit(`recicveMess${recieverEmail}`,res)
   })
 }
 

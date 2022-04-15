@@ -1,27 +1,37 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import s from './style.module.less';
 import { Avatar, SpinLoading } from 'antd-mobile';
 
 type SingleMessageProps = {
   content: string;
   userAvatar: string;
-  isSend: boolean;
-  isOthers?: boolean
+  isSelf: boolean;
+  isLastOne: boolean;
 }
 
 const SingleMessage: React.FC<SingleMessageProps> = (props) => {
   const {
     content,
     userAvatar,
-    isSend,
-    isOthers
+    isSelf,
+    isLastOne
   } = props || {};
+
+  const ref = useRef(null);
+  useEffect(() => {
+    if(isLastOne && ref.current) {
+      (ref.current as any).scrollIntoView({behavior: "smooth"});
+    }
+  },[isLastOne, ref])
+
   return (
     <div 
+      ref={ref}
       className={s.message}
-      style={{flexDirection: isOthers ? 'row-reverse' : 'unset'}}
+      style={{flexDirection: isSelf ? 'unset' : 'row-reverse'}}
     >
-      {
+      {/* {
+        TODO: 发消息的loading状态，暂时隐去
         !isSend && (
           <div className={s.state}>
             <SpinLoading
@@ -32,7 +42,7 @@ const SingleMessage: React.FC<SingleMessageProps> = (props) => {
             />
           </div>
         )
-      }
+      } */}
       <div className={s.content}>
         {content}
       </div>

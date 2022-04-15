@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../model/User')
 const { Shop } = require('../model/Shop')
-const { promisesWrap, getMessageInfo} = require('../utils/index')
+const { promisesWrap, getMessageInfo} = require('../utils/index');
+const { Message } = require('../model/Message');
 // 获取用户信息
 router.get('/info', async (req, res, next) => {
   const user = await User.findOne({
@@ -22,7 +23,6 @@ router.get('/allMessages', async (req, res, next) => {
     userEmail: userEmail
   })
   const messageIds = user.userMessageList;
-  console.log(messageIds)
   const data = await promisesWrap(messageIds, getMessageInfo)
   res.send({
     code: 200,
@@ -30,6 +30,27 @@ router.get('/allMessages', async (req, res, next) => {
     data
   })
 })
+//获取两个用户之间的消息
+router.get('/messages', async(req, res, next) => {
+  const { selfEmail, otherEmail } = req.query;
+  const messages = await Message.find(
+    {$or: [
+      {
+        senderEmail: selfEmail,
+        recieverEmail: otherEmail
+      }, {
+        senderEmail: otherEmail,
+        recieverEmail: selfEmail,
+      }
+    ]}
+  )
+  res.send({
+    code: 200,
+    messages: '获取消息成功',
+    data:messages
+  })
+})
+
 //获取用户的消息列表，列表页展示用
 router.get('/messageList', async (req, res, next) => {
   const { userEmail } = req.query;

@@ -26,3 +26,11 @@ export type MessageType = {
 	name: string;
 	createTime: string;
 }
+
+
+export type SimpleMessage = {
+  senderEmail: string;
+  recieverEmail: string;
+  content: string;
+  createTime: string;
+}

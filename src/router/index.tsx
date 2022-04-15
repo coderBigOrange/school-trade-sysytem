@@ -38,7 +38,7 @@ export const routerConfig:RouteConfig[] = [
 		]
 	},
 	{
-		path: '/message/detail',
+		path: '/message/detail/:name/:avatar/:email',
 		element: <MessageDetail />,
 		auth: true,
 	},

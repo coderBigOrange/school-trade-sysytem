@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import {Navigate, Route} from 'react-router-dom';
-import {useAppSelector} from '../store/hooks'
+import {useAppSelector} from '../hooks'
 
 type PermissionProps = {
   pathname: string;

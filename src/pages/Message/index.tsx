@@ -13,7 +13,7 @@ import {
 import IconOperation from "../../components/IconOperation";
 import MessageList from "../../components/MessageList";
 import { GetMessageList } from "../../api/effect";
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import { MessageType } from "../../utils/interface";
 import { updateAll } from "../../store/modules/user";
 
@@ -30,7 +30,6 @@ const Message: React.FC = () =>{
 				data
 			} = res;
 			if(code === 200) {
-				console.log(userEmail, data)
 				setMessaeList(data)
 			} else if(code === 401){
 				Toast.show('身份认证过期，请重新登录')

@@ -1,3 +1,4 @@
+import { SimpleMessage, MessageType } from '../utils/interface';
 import request from './network';
 
 export const UserLogin = async (data: {
@@ -75,8 +76,22 @@ export const GetQiNiuToken = () => {
 export const GetMessageList = (data: {
   userEmail: string
 }) => {
-  return request<any[]>({
+  return request<MessageType[]>({
     url: '/users/messageList',
+    method: 'get',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    params: data
+  })
+}
+
+export const GetMessages = (data: {
+  selfEmail: string;
+  otherEmail: string;
+}) => {
+  return request<SimpleMessage[]>({
+    url: '/users/messages',
     method: 'get',
     headers: {
       Authorization: localStorage.getItem('token') || ''

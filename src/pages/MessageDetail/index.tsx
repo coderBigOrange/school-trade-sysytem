@@ -1,22 +1,63 @@
-import React, { useState, useRef}  from "react";
+import React, { useState, useRef, useEffect}  from "react";
 import s from './style.module.less';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   NavBar,
   TextArea,
-  Button
+  Button,
+  Toast
 } from 'antd-mobile';
 import debounce from 'lodash/debounce'
 import SingleMessage from "./SingleMessage";
-import { useAppSelector } from "../../store/hooks";
+import { initailMessages } from "../../store/modules/message";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { SimpleMessage } from '../../utils/interface';
+import { GetMessages } from '../../api/effect'
 
 const MessageDetail:React.FC = () => {
   const [message, setMessage] = useState<string>('')
   const messRef = useRef(null);
   const navigate = useNavigate();
   const socket = window['socket'];
+  // const [allMessages, setAllMessages] = useState<SimpleMessage[]>([])
+  const params = useParams()
   const userInfo = useAppSelector(state => state.user)
+  const dispatch = useAppDispatch();
   const allMessages = useAppSelector(state => state.message)
+  const [curMessages, setCurMessages] = useState<SimpleMessage[]>([]);
+
+  useEffect(() => {
+    if(params.email && userInfo.email && dispatch) {
+      (async () => {
+        if(params.email) {
+          const res = await GetMessages({
+            selfEmail: userInfo.email,
+            otherEmail: params.email
+          })
+          const {
+            code,
+            data,
+            message
+          } = res;
+          if(code === 200) {
+            dispatch(initailMessages({
+              email: params.email,
+              messages: data
+            }))
+          } else {
+            Toast.show(message)
+          }
+        }
+      })();
+    }
+  },[params.email, userInfo.email, dispatch])
+  
+  useEffect(() => {
+    if(params.email && allMessages) {
+      setCurMessages(allMessages[params.email] || [])
+    }
+  },[allMessages,params.email])
+
 
   const handleInput = (value: string) => {
     setMessage(value);
@@ -25,10 +66,9 @@ const MessageDetail:React.FC = () => {
     const tempMessage = message;
     socket.emit('chat', {
       content: tempMessage,
-      senderEmail: userInfo.email || '1810410221@student.cumtb.edu.cn',
-      recieverEmail: '1710410221@student.cumtb.edu.cn'
+      senderEmail: userInfo.email,
+      recieverEmail: params.email
     })
-
     setMessage('');
     (messRef.current as any).clear();
   }
@@ -37,24 +77,28 @@ const MessageDetail:React.FC = () => {
       <NavBar 
         onBack={() => {navigate('/message')}}
       >
-        马斯克
+        {params.name}
       </NavBar>
       <div className={s.body}>
         {
-          allMessages.map((item, index) => {
+          curMessages.map((item, index) => {
             const {
               content,
-              avatar,
-              isSend,
-              email
+              recieverEmail,
+              senderEmail,
+              createTime
             } = item;
+            const isSelf = senderEmail === userInfo.email;
+            const avatar = isSelf
+              ? userInfo.avatar
+              : params.avatar || '';
             return (
               <SingleMessage 
                 key={index}
                 userAvatar={avatar}
                 content={content}
-                isSend={isSend}
-                isOthers={email !== (userInfo.email || '1810410221@student.cumtb.edu.cn')}
+                isSelf={isSelf}
+                isLastOne= {index === curMessages.length -1}
               />
             )
           })

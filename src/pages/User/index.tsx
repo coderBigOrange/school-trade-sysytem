@@ -7,7 +7,7 @@ import s from './style.module.less';
 import { Avatar, Button, List } from "antd-mobile";
 import { SetOutline } from 'antd-mobile-icons'
 import IconWrap from "../../components/IconWrap";
-import { useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../hooks";
 
 const { Item } = List;
 
