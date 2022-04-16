@@ -76,7 +76,7 @@ const getMessageInfo = async (messageId) => {
 //对多个异步操作使用Promiseall封装
 const promisesWrap = (dataSouce, asycnFn) => {
   if(!dataSouce || dataSouce.length < 1) {
-    return;
+    return [];
   }
   const promiseArr = [];
   for(const item of dataSouce) {
