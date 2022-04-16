@@ -57,7 +57,7 @@ export const PublishShop = async(data: {
   shopOwnerEmail: string;
 }) => {
   return request<any>({
-    url: '/users/publish',
+    url: '/shops/publish',
     method: 'post',
     headers: {
       Authorization: localStorage.getItem('token') || ''
@@ -73,6 +73,7 @@ export const GetQiNiuToken = () => {
   })
 }
 
+//获取用户消息列表
 export const GetMessageList = (data: {
   userEmail: string
 }) => {
@@ -86,12 +87,13 @@ export const GetMessageList = (data: {
   })
 }
 
+//获取两个用户之间的信息
 export const GetMessages = (data: {
   selfEmail: string;
   otherEmail: string;
 }) => {
   return request<SimpleMessage[]>({
-    url: '/users/messages',
+    url: '/messages/messages',
     method: 'get',
     headers: {
       Authorization: localStorage.getItem('token') || ''

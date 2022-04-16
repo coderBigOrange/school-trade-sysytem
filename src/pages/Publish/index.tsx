@@ -72,7 +72,7 @@ const Publish: React.FC = () => {
       ...values,
       shopPrice: parseFloat(values.shopPrice),
       shopImgs: res,
-      shopSort: parseInt(values.shopSort[0],10),
+      shopSort: values.shopSort[0],
       shopOwnerEmail: '1810410221@student.cumtb.edu.cn'//TODO: 暂时用，后续会将用户邮箱存入redux然后获取
     }
     const result =  await PublishShop(data);

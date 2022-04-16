@@ -26,4 +26,39 @@ router.get('/shopList', async(req, res, next)=>{
   })
 })
 
+//用户发布商品
+router.post('/publish', async(req, res, next) => {
+  const {
+    shopTitle,
+    shopDescription,
+    shopImgs,
+    shopSort,
+    shopPrice,
+    shopOwnerEmail
+  } = req.body;
+  const shop = await Shop.create({
+    shopTitle,
+    shopDescription,
+    shopImgs,
+    shopSort,
+    shopOwnerEmail,
+    shopPrice
+  })
+  res.send({
+    code: 200,
+    message: '发布成功',
+    data: shop
+  })
+})
+
+//获取全部商品
+router.get('/allShops', async(req,res,next) => {
+  const shopList = await Shop.find({});
+  res.send({
+    code: 200,
+    message: '获取成功',
+    data: shopList
+  })
+})
+
 module.exports = router;

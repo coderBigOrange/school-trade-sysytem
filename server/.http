@@ -1,21 +1,23 @@
 // 接口测试
 //TODO: 已经签发的新的token，旧token依旧可用
+
 ### 获取用户列表
 get http://localhost:8080/users/list
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NDk4NTM0NDEsImV4cCI6MTY0OTg1NzA0MX0.eI060hkfw_rAmpqVHt-n49SLo3JWxZOcfaZcVWeKGfg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY
 
-### 获取所有消息
+get http://localhost:8080/messages/allMessages
+
+### 获取用户所有消息
 get http://localhost:8080/users/allMessages?userEmail=1710410221@student.cumtb.edu.cn
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NDk5MjQ4NjksImV4cCI6MTY0OTkyODQ2OX0.AFXTTAZWblB1YjWLyoXhm-AU9Zl-Z3oaZeVBIdHoimg
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY
 
 ### 获取用户之间的消息
-get http://localhost:8080/users/messages?selfEmail=1810410221@student.cumtb.edu.cn&otherEmail=1710410221@student.cumtb.edu.cn
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwMDY0OTEsImV4cCI6MTY1MDAxMDA5MX0.3iSjvo2dTUUgSP_WF9kHAPA4xqF58y9Z_UnP6SB1KhI
+get http://localhost:8080/messages/messages?selfEmail=1810410221@student.cumtb.edu.cn&otherEmail=1710410221@student.cumtb.edu.cn
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY
 
 ### 获取消息列表
 get http://localhost:8080/users/messageList?userEmail=1710410221@student.cumtb.edu.cn
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NDk5NDEzNDYsImV4cCI6MTY0OTk0NDk0Nn0.CBvnWIr-5--4kdKpf8V7WNGRHFFH9h3PTC9RIpuj5wE
-
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY
 ### 注册账号
 POST http://localhost:8080/register
 Content-Type: application/json
@@ -35,14 +37,13 @@ Content-Type: application/json
 }
 
 ### 发布商品
-POST http://localhost:8080/users/publish
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjIiLCJpYXQiOjE2NDk2NjI4NjEsImV4cCI6MTY0OTY2NjQ2MX0.V79E2inmue9AwhZJlyuHwi3ddqw_1QcGS-aUB4_lYRw
+POST http://localhost:8080/shops/publish
 Content-Type: application/json
 
 {
   "shopTitle": "美旅拉杆箱 行李箱男女万向轮旅行箱商务箱包登机密码箱  20英寸 银色 BJ9",
   "shopDescription": "撒酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷开始的的开发模式看到过开幕的开发马铃薯淀粉了",
-  "shopImg": [
+  "shopImgs": [
     "https://img10.360buyimg.com/mobilecms/s360x360_jfs/t1/117838/28/22055/206224/62441662E46016aa1/38e4645463def9ed.jpg!q70.dpg.webp"
   ],
   "shopSort": 1,
@@ -52,6 +53,9 @@ Content-Type: application/json
 
 ### 获取商品列表
 get http://localhost:8080/shops/shopList?shopSort=1&page=0
+
+### 获取全部商品
+get http://localhost:8080/shops/allShops
 
 ### 获取七牛云的上传token
 get  http://localhost:8080/qiniu/token

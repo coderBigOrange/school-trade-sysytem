@@ -46,6 +46,8 @@ const data = mock({
   ],
 })
 
+console.log('welcome')
+
 // Shop.insertMany(data.shopList, function(err, res){
 //   if(err) {console.log(err)}
 //   console.log('插入成功', res.length)

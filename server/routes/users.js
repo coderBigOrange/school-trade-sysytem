@@ -30,26 +30,6 @@ router.get('/allMessages', async (req, res, next) => {
     data
   })
 })
-//获取两个用户之间的消息
-router.get('/messages', async(req, res, next) => {
-  const { selfEmail, otherEmail } = req.query;
-  const messages = await Message.find(
-    {$or: [
-      {
-        senderEmail: selfEmail,
-        recieverEmail: otherEmail
-      }, {
-        senderEmail: otherEmail,
-        recieverEmail: selfEmail,
-      }
-    ]}
-  )
-  res.send({
-    code: 200,
-    messages: '获取消息成功',
-    data:messages
-  })
-})
 
 //获取用户的消息列表，列表页展示用
 router.get('/messageList', async (req, res, next) => {
@@ -72,31 +52,6 @@ router.get('/list', async(req, res, next)=>{
     code: 200,
     message: '获取成功',
     data: user
-  })
-})
-
-//用户发布商品
-router.post('/publish', async(req, res, next) => {
-  const {
-    shopTitle,
-    shopDescription,
-    shopImgs,
-    shopSort,
-    shopPrice,
-    shopOwnerEmail
-  } = req.body;
-  const shop = await Shop.create({
-    shopTitle,
-    shopDescription,
-    shopImg:shopImgs,
-    shopSort,
-    shopOwnerEmail,
-    shopPrice
-  })
-  res.send({
-    code: 200,
-    message: '发布成功',
-    data: shop
   })
 })
 

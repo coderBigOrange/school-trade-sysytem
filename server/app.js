@@ -6,8 +6,12 @@ var logger = require('morgan');
 const {loginRouter} = require('./routes/login');
 const usersRouter = require('./routes/users');
 const shopRouter = require('./routes/shops')
+const messageRouter = require('./routes/messages')
 const qiniRouter = require('./routes/qiniuToken')
 const auth = require('./middlewares/auth');
+
+// const drop = require('./utils/drop')
+// const mock = require('./utils/mock')
 
 var app = express();//创建express实例
 //处理跨域问题
@@ -38,8 +42,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 处理请求
 app.use('/', loginRouter);
 app.use('/qiniu', qiniRouter)
-app.use('/users',auth,usersRouter)
+app.use('/users',usersRouter)
 app.use('/shops',shopRouter)
+app.use('/messages', messageRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   console.log('404')
