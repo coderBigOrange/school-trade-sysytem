@@ -42,6 +42,24 @@ export enum  ComponentState {
   OK = 4
 }
 
+export type User = {
+  userName: string;
+  userEmail: string;
+  userAvatar: string;
+  userGender: number;
+  userStudentInfo: string;
+  userIntroduce: string;
+  userAddress: string;
+  userBirth: string;
+  createTime: string;
+  userLikeList: string[],
+  userCollectList: string[],
+  userCommentList: string[],
+  userSubscribe: string[],
+  userBeSubscribed: string[],
+  userPublishList: string[]
+}
+
 export type Comment = {
   content: string;
   email: string;

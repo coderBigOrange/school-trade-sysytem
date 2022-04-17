@@ -27,12 +27,13 @@ console.log('执行')
 
 /**
  * 商品相关
+ * 应该连带删除用户评价，点赞和收藏
  */
 // Shop.deleteMany({},function (err, res) {
 //   if(err) {
 //     console.log(err)
 //   } else {
-//     console.log('情况商品',res)
+//     console.log('清楚商品',res)
 //   }
 // })
 // User.updateMany({}, {
@@ -41,7 +42,7 @@ console.log('执行')
 //   if(err) {
 //     console.log(err)
 //   } else {
-//     console.log('情除所有用户发布的商品',res)
+//     console.log('清楚所有用户发布的商品',res)
 //   }
 // })
 

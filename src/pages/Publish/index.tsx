@@ -44,7 +44,7 @@ const Publish: React.FC = () => {
       shopPrice: parseFloat(values.shopPrice),
       shopImgs: imgUrls,
       shopSort: values.shopSort[0],
-      shopOwnerEmail: userInfo.email
+      shopOwnerEmail: userInfo.userEmail
     }
     const result =  await PublishShop(data);
     if(result.code === 200) {

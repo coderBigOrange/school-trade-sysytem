@@ -28,17 +28,8 @@ const Login: React.FC = () =>{
 			setIsLogin(false);
 			if(res.code === 200) {
 				const {user, token} = res.data;
-				const {
-					userName,
-					userEmail,
-					userAvatar
-				} = user;
 				//将返回的用户信息存入store中
-				dispatch(updateAll({
-					name: userName,
-					email: userEmail,
-					avatar: userAvatar,
-					}))
+				dispatch(updateAll(user))
 					localStorage.setItem('token',token)
 				navigator('/home')
 			} else {

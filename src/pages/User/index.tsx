@@ -19,28 +19,28 @@ const User: React.FC = () =>{
 					<Avatar 
 						style={{'--size': '70px', '--border-radius': '50%'}}
 						fit='contain'
-						src={user.avatar}
+						src={user.userAvatar}
 					/>
 					<div className={s.description}>
-						<div className={s.userName}>{user.name}</div>
-						<div className={s.otherInfo}>机电学院计算机2班</div>
+						<div className={s.userName}>{user.userName}</div>
+						<div className={s.otherInfo}>{user.userStudentInfo}</div>
 					</div>
 				</div>
 				<div className={s.operation}>
 					<VerticalFlexBox onClick={() => console.log('我收藏的')}>
-						<div className={s.count}>99</div>
+						<div className={s.count}>{user.userCollectList.length}</div>
 						<div className={s.name}>我收藏的</div>
 					</VerticalFlexBox>
-					<VerticalFlexBox onClick={() => console.log('我浏览的')}>
-						<div className={s.count}>99</div>
+					{/* <VerticalFlexBox onClick={() => console.log('我浏览的')}>
+						<div className={s.count}></div>
 						<div className={s.name}>我浏览的</div>
-					</VerticalFlexBox>
+					</VerticalFlexBox> */}
 					<VerticalFlexBox onClick={() => console.log('我喜欢的')}>
-						<div className={s.count}>99</div>
+						<div className={s.count}>{user.userLikeList.length}</div>
 						<div className={s.name}>我喜欢的</div>
 					</VerticalFlexBox>
 					<VerticalFlexBox onClick={() => console.log('我评论的')}>
-						<div className={s.count}>99</div>
+						<div className={s.count}>{user.userCommentList.length}</div>
 						<div className={s.name}>我评论的</div>
 					</VerticalFlexBox>
 				</div>
@@ -57,7 +57,7 @@ const User: React.FC = () =>{
 						</div>
 						<div className={s.name}>
 							<span>我发布的</span>
-							<span>0</span>
+							<span>{user.userPublishList.length}</span>
 						</div>
 					</VerticalFlexBox>
 					<VerticalFlexBox onClick={() => console.log('我的关注')}>
@@ -66,7 +66,7 @@ const User: React.FC = () =>{
 						</div>
 						<div className={s.name}>
 							<span>我的关注</span>
-							<span>0</span>
+							<span>{user.userSubscribe.length}</span>
 						</div>
 					</VerticalFlexBox>
 					<VerticalFlexBox onClick={() => console.log('我的粉丝')}>
@@ -75,7 +75,7 @@ const User: React.FC = () =>{
 						</div>
 						<div className={s.name}>
 							<span>我的粉丝</span>
-							<span>1</span>
+							<span>{user.userBeSubscribed.length}</span>
 						</div>
 					</VerticalFlexBox>
 				</div>

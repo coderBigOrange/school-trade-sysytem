@@ -20,7 +20,7 @@ import { ComponentState } from "../../utils/interface";
 import { updateAll } from "../../store/modules/user";
 
 const Message: React.FC = () =>{
-	const userEmail = useAppSelector(state => state.user.email)
+	const userEmail = useAppSelector(state => state.user.userEmail)
 	const [messageList, setMessaeList] = useState<MessageType[]>([])
 	const dispatch = useAppDispatch();
   const [state, setState] = useState<ComponentState>(ComponentState.LODING)

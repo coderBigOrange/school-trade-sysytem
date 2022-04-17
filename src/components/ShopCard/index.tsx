@@ -49,24 +49,24 @@ const Card:React.FC<Shop> = (props) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if(userInfo.email && shopCollect && shopLike) {
+    if(userInfo.userEmail && shopCollect && shopLike) {
       setLikeCnt(shopCollect.length);
       setCollectCnt(shopCollect.length);
 
-      const likeIdx = shopLike.findIndex(item => item.email === userInfo.email)
+      const likeIdx = shopLike.findIndex(item => item.email === userInfo.userEmail)
       if(likeIdx < 0) {
         setIsLike(false)
       } else {
         setIsLike(true)
       }
-      const collectIdx = shopCollect.findIndex(item => item.email === userInfo.email)
+      const collectIdx = shopCollect.findIndex(item => item.email === userInfo.userEmail)
       if(collectIdx < 0) {
         setIsCollected(false)
       } else {
         setIsCollected(true)
       }
     }
-  },[userInfo.email, shopCollect, shopLike])
+  },[userInfo.userEmail, shopCollect, shopLike])
 
   const handleCardClick = () => {
     dispatch(updateShopDetail(props))
@@ -78,7 +78,7 @@ const Card:React.FC<Shop> = (props) => {
     if(isLike) {
       (async () => {
         const res = await UserCancelLike({
-          email: userInfo.email,
+          email: userInfo.userEmail,
           shopId
         })
         //结构请求之后，数据库数据已经改变，但是这边没有重新请求（也没必要），所以在本地改变
@@ -95,8 +95,8 @@ const Card:React.FC<Shop> = (props) => {
     } else {
       (async () => {
         const res = await UserLike({
-          email: userInfo.email,
-          name: userInfo.name,
+          email: userInfo.userEmail,
+          name: userInfo.userName,
           shopId
         })
         const {
@@ -117,7 +117,7 @@ const Card:React.FC<Shop> = (props) => {
     if(isCollected) {
       (async () => {
         const res = await UserCancelCollect({
-          email: userInfo.email,
+          email: userInfo.userEmail,
           shopId
         })
         //结构请求之后，数据库数据已经改变，但是这边没有重新请求（也没必要），所以在本地改变
@@ -134,8 +134,8 @@ const Card:React.FC<Shop> = (props) => {
     } else {
       (async () => {
         const res = await UserCollect({
-          email: userInfo.email,
-          name: userInfo.name,
+          email: userInfo.userEmail,
+          name: userInfo.userName,
           shopId
         })
         const {

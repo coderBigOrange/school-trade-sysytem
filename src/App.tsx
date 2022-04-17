@@ -15,10 +15,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     //TODO: 这里应该和登录逻辑相结合
-    if(user.email && dispatch) {
+    if(user.userEmail && dispatch) {
       const socket = io('http://localhost:8080');
       socket.connect()
-      socket.on(`sendOver${user.email}`,( data: SimpleMessage) => {
+      socket.on(`sendOver${user.userEmail}`,( data: SimpleMessage) => {
         console.log('senOver', data)
         const {
           recieverEmail,
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           console.log(err)
         }
       })
-      socket.on(`recicveMess${user.email}`, ( data: SimpleMessage) => {
+      socket.on(`recicveMess${user.userEmail}`, ( data: SimpleMessage) => {
         console.log('recieve', data)
         const {
           recieverEmail,
@@ -64,7 +64,7 @@ const App: React.FC = () => {
       })
       window['socket'] = socket;
     }
-  },[user.email, dispatch])
+  },[user.userEmail, dispatch])
   return (
     <Router>
       <MyRoutes />

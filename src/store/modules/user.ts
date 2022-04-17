@@ -2,28 +2,32 @@ import {
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit';
+import { User } from '../../utils/interface'
 
-interface UserInfo {
-  name: string;
-  email: string;
-  avatar: string;
-}
+const initialState: User = {
+  userName: '',
+  userEmail: '',
+  userAvatar: '',
+  userGender: 1,
+  userStudentInfo: '',
+  userIntroduce: '',
+  userAddress: '',
+  userBirth: '',
+  createTime: '',
+  userLikeList: [],
+  userCollectList: [],
+  userCommentList: [],
+  userSubscribe: [],
+  userBeSubscribed: [],
+  userPublishList: []
 
-const initialState: UserInfo = {
-  name: '',
-  email: '',
-  avatar: '',
 }
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateAll: (state, action: PayloadAction<{
-      name: string;
-      email: string;
-      avatar: string;
-    }>) => {
+    updateAll: (state, action: PayloadAction<User>) => {
       Object.assign(state, action.payload)
     }
   }

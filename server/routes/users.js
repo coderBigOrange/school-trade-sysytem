@@ -228,4 +228,9 @@ router.post('/comment', async(req, res, next) => {
   })
 })
 
+// router.post('/subscribe', (req,res,next) => {
+//   const { selfEmail, otherEmail } = req.body;
+
+// })
+
 module.exports = router;

@@ -2,7 +2,8 @@ import {
   SimpleMessage, 
   MessageType,
   Shop,
-  Comment
+  Comment,
+  User
 } from '../utils/interface';
 import request from './network';
 
@@ -12,7 +13,7 @@ export const UserLogin = async (data: {
 }) => {
   return request<{
     token: string;
-    user: any
+    user: User
   }>({
     url: '/login',
     method: 'post',

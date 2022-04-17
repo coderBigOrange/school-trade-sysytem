@@ -26,8 +26,6 @@ const ShopDetail: React.FC = () => {
   const messRef = useRef(null);
   const [commentVal, setCommentVal] = useState('');
   const dispatch = useAppDispatch();
-
-
   const {
     userAvatar,
     userName,
@@ -43,15 +41,6 @@ const ShopDetail: React.FC = () => {
     shopId,
     shopOwnerEmail
   } = detailInfo;
-
-  const fakeComment = {
-    email: '1810410221@student.cumtb.edu.cn',
-    avatar: userInfo.avatar,
-    content: '你们是考试科目v律师代',
-    createTime: +new Date(),
-    name: '橙子',
-    likeCnt: 0,
-  }
 
   const onSubScribe = () => {
     console.log('subscibe')
@@ -70,10 +59,10 @@ const ShopDetail: React.FC = () => {
     (async () => {
       const res =  await UserComment({
         content: commentVal,
-        avatar: userInfo.avatar,
-        name: userInfo.name,
+        avatar: userInfo.userAvatar,
+        name: userInfo.userName,
         shopId,
-        email: userInfo.email
+        email: userInfo.userEmail
       })
       const {
         code,

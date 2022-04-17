@@ -27,11 +27,11 @@ const MessageDetail:React.FC = () => {
   const [curMessages, setCurMessages] = useState<SimpleMessage[]>([]);
 
   useEffect(() => {
-    if(params.email && userInfo.email && dispatch) {
+    if(params.email && userInfo.userEmail && dispatch) {
       (async () => {
         if(params.email) {
           const res = await GetMessages({
-            selfEmail: userInfo.email,
+            selfEmail: userInfo.userEmail,
             otherEmail: params.email
           })
           const {
@@ -50,7 +50,7 @@ const MessageDetail:React.FC = () => {
         }
       })();
     }
-  },[params.email, userInfo.email, dispatch])
+  },[params.email, userInfo.userEmail, dispatch])
   
   useEffect(() => {
     if(params.email && allMessages) {
@@ -66,7 +66,7 @@ const MessageDetail:React.FC = () => {
     const tempMessage = message;
     socket.emit('chat', {
       content: tempMessage,
-      senderEmail: userInfo.email,
+      senderEmail: userInfo.userEmail,
       recieverEmail: params.email
     })
     setMessage('');
@@ -88,9 +88,9 @@ const MessageDetail:React.FC = () => {
               senderEmail,
               createTime
             } = item;
-            const isSelf = senderEmail === userInfo.email;
+            const isSelf = senderEmail === userInfo.userEmail;
             const avatar = isSelf
-              ? userInfo.avatar
+              ? userInfo.userAvatar
               : params.avatar || '';
             return (
               <SingleMessage 
