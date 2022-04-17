@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/token', (req, res, next) => {
     const uploadToken = getQiNiuToken();
-    const key = +new Date() + Math.random().toString(16).slice(2); 
+    const key = +new Date() + Math.random().toString(16).slice(2)+'.png'; 
     res.status(200).send({
       code: 200,
       messge: '获取七牛token成功',

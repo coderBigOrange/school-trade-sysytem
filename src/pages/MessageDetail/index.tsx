@@ -115,8 +115,7 @@ const MessageDetail:React.FC = () => {
             maxLength={150}
             style={{
               padding: 5,
-              paddingTop: 7,
-              '--disabled-color': "18px",
+              paddingTop: 7
             }}
           />
         </div>

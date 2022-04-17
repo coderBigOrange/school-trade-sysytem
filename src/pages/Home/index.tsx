@@ -3,15 +3,19 @@
 //TODO GET请求没有拿到数据的问题，后端数据返回条数限制，应该分页 solved
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import Card from "../../components/Card";
+import Card from "../../components/ShopCard";
 import TabButton from "../../components/TabButton";
+import ComponentWrap from "../../components/ComponentWrap";
 import {
   SearchBar,
   InfiniteScroll,
   Swiper,
   Tabs,
   Button,
+  Toast,
 } from 'antd-mobile';
+
+import { ComponentState, Shop, sorts } from "../../utils/interface";
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import {EditSFill} from 'antd-mobile-icons'
 import { GetShopList } from "../../api/effect";
@@ -19,19 +23,19 @@ import s from "./style.module.less";
 
 const { Item } = Swiper;
 const { Tab } = Tabs;
-const sorts = ['关注', '推荐','学习', '数码','体育','艺术','服饰', '日用品', '食品','其他']
 
 const Home: React.FC = () => {
-  const [shopList, setShopList] = useState<any[]>([]);
+  const [shopList, setShopList] = useState<Shop[]>([]);
   const [hasMore, setHasMore] = useState(true)
   const [activeIndex, setActiveIndex] = useState(1);
   const [pageIdx, setPageIdx] = useState(1);
   const swiperRef = useRef<SwiperRef>(null)
+  const [state, setState] = useState<ComponentState>(ComponentState.LODING)
   const navigate = useNavigate();
 
   const loadMore = async () => {
     const res = await GetShopList({
-      shopSort: activeIndex,
+      shopSort: sorts[activeIndex].value,
       page: pageIdx
     });
     const {
@@ -47,21 +51,36 @@ const Home: React.FC = () => {
         setHasMore(false)
       }
     } else {
-      console.log(message)
-      setHasMore(false)
+      Toast.show(message)
     }
   }
   useEffect(() => {
     (async () => {
+      setState(ComponentState.LODING)
       const res = await GetShopList({
-        shopSort:activeIndex,
+        shopSort: sorts[activeIndex].value,
         page: 0
       })
-      if(res.code === 200) {
-        setShopList(res.data)//TODO: 需要一个loading页去缓和未加载时大量的网络请求
+      const {
+        code,
+        data,
+        message
+      } = res;
+      if(code === 200) {
+        setShopList(data)//TODO: 需要一个loading页去缓和未加载时大量的网络请求
+        setState(ComponentState.OK)
+        if(data.length < 1) {
+          setState(ComponentState.EMPTY)
+        } else {
+          setState(ComponentState.OK)
+        }
+      } else {
+        Toast.show(message)
+        setState(ComponentState.ERROR)
       }
     })();
   }, [activeIndex])
+
   return (
     <div className={s.home}>
       <div className={s.header}>
@@ -91,9 +110,9 @@ const Home: React.FC = () => {
         </div>
         <div className={s.sort}>
           <Tabs
-              activeKey={sorts[activeIndex]}
+              activeKey={sorts[activeIndex].value}
               onChange={key => {
-                const index = sorts.findIndex(item => item === key)
+                const index = sorts.findIndex(item => item.value === key)
                 setActiveIndex(index)
                 swiperRef.current?.swipeTo(index)
               }}
@@ -101,7 +120,7 @@ const Home: React.FC = () => {
             {
               sorts.map(item => {
                 return (
-                  <Tab title={item} key={item}/>
+                  <Tab title={item.label} key={item.value}/>
                 )
               })
             }
@@ -121,17 +140,21 @@ const Home: React.FC = () => {
           {
             sorts.map(item => {
               return (
-                <Item key={item}>
+                <Item key={item.value}>
                   <div className={s.body}>
-                    {
-                      shopList.map((item, index) => {
-                        return <Card 
-                          key={index}  
-                          {...item}
-                        />
-                      })
-                    }
-                    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
+                    <ComponentWrap state={state}>
+                      <>
+                        {
+                          shopList.map(item => {
+                            return <Card 
+                              key={item.shopId}  
+                              {...item}
+                            />
+                          })
+                        }
+                        <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
+                      </>
+                    </ComponentWrap>
                   </div>
                 </Item>
               )

@@ -15,14 +15,19 @@ import MessageList from "../../components/MessageList";
 import { GetMessageList } from "../../api/effect";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { MessageType } from "../../utils/interface";
+import ComponentWrap from "../../components/ComponentWrap";
+import { ComponentState } from "../../utils/interface";
 import { updateAll } from "../../store/modules/user";
 
 const Message: React.FC = () =>{
 	const userEmail = useAppSelector(state => state.user.email)
 	const [messageList, setMessaeList] = useState<MessageType[]>([])
 	const dispatch = useAppDispatch();
+  const [state, setState] = useState<ComponentState>(ComponentState.LODING)
+
 	useEffect(() => {
 		(async () => {
+			setState(ComponentState.LODING)
 			const res = await GetMessageList({userEmail})
 			const {	
 				code,
@@ -31,8 +36,14 @@ const Message: React.FC = () =>{
 			} = res;
 			if(code === 200) {
 				setMessaeList(data)
+				if(data.length < 1) {
+					setState(ComponentState.EMPTY)
+				} else {
+					setState(ComponentState.OK)
+				}
 			} else if(code === 401){
 				Toast.show('身份认证过期，请重新登录')
+				setState(ComponentState.ERROR)
 				// dispatch(updateAll({
 				// 	name: '',
 				// 	avatar: '',
@@ -40,6 +51,7 @@ const Message: React.FC = () =>{
 				// }))
 			} else {
 				Toast.show(message)
+				setState(ComponentState.ERROR)
 			}
 		})();
 	}, [userEmail])
@@ -91,7 +103,9 @@ const Message: React.FC = () =>{
 				</div>
 			</div>
 			<div className={s.body}>
-				<MessageList data={messageList}/>
+				<ComponentWrap state={state}>
+					<MessageList data={messageList}/>
+				</ComponentWrap>
 			</div>
 			<TabButton />
 		</div>

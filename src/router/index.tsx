@@ -10,6 +10,7 @@ import User from '../pages/User';
 import Page404 from '../pages/404';
 import Publish from "../pages/Publish";
 import MessageDetail from "../pages/MessageDetail";
+import ShopDetail from "../pages/ShopDetail";
 
 export type RouteConfig = {
   path: string; 
@@ -51,6 +52,10 @@ export const routerConfig:RouteConfig[] = [
 		path: '/me',
 		element: <User />,
 		auth: true,
+	},
+	{
+		path: '/shopDetail',
+		element: <ShopDetail />
 	},
 	{
 		path: '/login',

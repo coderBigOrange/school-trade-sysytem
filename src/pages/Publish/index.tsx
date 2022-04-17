@@ -17,42 +17,11 @@ import {
 import { uploadImg } from '../../utils';
 import uploadImgToQiNiu from '../../api/uploadImg';
 import { PublishShop } from '../../api/effect'
+import { sorts } from "../../utils/interface";
+import { useAppSelector } from '../../hooks';
 import s from './style.module.less'
 
 const { Item } = Form;
-
-const sorts = [
-  [
-    {
-      label: '学习',
-      value: '1'
-    },
-    {
-      label: '数码',
-      value: '2'
-    },
-    {
-      label: '体育',
-      value: '3'
-    },
-    {
-      label: '艺术',
-      value: '4'
-    },
-    {
-      label: '服饰',
-      value: '5'
-    },
-    {
-      label: '日用品',
-      value: '6'
-    },
-    {
-      label: '其他',
-      value: '7'
-    },
-  ]
-]
 
 const Publish: React.FC = () => {
   const [fileList, setFileList] = useState<ImageUploadItem[]>([])
@@ -60,6 +29,7 @@ const Publish: React.FC = () => {
   const [isLoding, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false)
   const formRef = React.createRef<FormInstance>()
+  const userInfo = useAppSelector(state => state.user)
   
   const onFinish = async (values) => {
     //首先将图片上传值七牛云，获得图片的url，之后再将所有数据上传至数据库
@@ -68,12 +38,13 @@ const Publish: React.FC = () => {
 		const imgs: File[] = values.shopImgs.map(item => item.extra);
     const promises = imgs.map(img => uploadImgToQiNiu(img))
     const res = await Promise.all(promises);
+    const imgUrls = res.map(item => 'http://'+item)
     const data = {
       ...values,
       shopPrice: parseFloat(values.shopPrice),
-      shopImgs: res,
+      shopImgs: imgUrls,
       shopSort: values.shopSort[0],
-      shopOwnerEmail: '1810410221@student.cumtb.edu.cn'//TODO: 暂时用，后续会将用户邮箱存入redux然后获取
+      shopOwnerEmail: userInfo.email
     }
     const result =  await PublishShop(data);
     if(result.code === 200) {
@@ -134,7 +105,7 @@ const Publish: React.FC = () => {
             rules={[{ required: true }]}
           >
             <Picker
-              columns={sorts}
+              columns={[sorts.slice(2)]}
               visible={isVisible}
               onClose={() => setIsVisible(false)}
               onConfirm={(value) => {

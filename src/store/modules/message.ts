@@ -3,7 +3,6 @@ import {
   PayloadAction
 } from '@reduxjs/toolkit';
 import {SimpleMessage} from '../../utils/interface';
-import cloneDeep from 'lodash/cloneDeep'
 
 type UserMessageType = Record<string, SimpleMessage[]>
 

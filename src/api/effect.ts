@@ -1,4 +1,8 @@
-import { SimpleMessage, MessageType } from '../utils/interface';
+import { 
+  SimpleMessage, 
+  MessageType,
+  Shop
+} from '../utils/interface';
 import request from './network';
 
 export const UserLogin = async (data: {
@@ -34,11 +38,69 @@ export const GetUserInfo = () => {
 
 }
 
+export const UserLike = (data: {
+  email: string;
+  name: string;
+  shopId: string;
+}) => {
+  return request({
+    url: '/users/like',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+
+export const UserCancelLike = (data: {
+  email,
+  shopId
+}) => {
+  return request({
+    url: '/users/cancelLike',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+
+export const UserCollect = (data: {
+  email: string;
+  name: string;
+  shopId: string;
+}) => {
+  return request({
+    url: '/users/collect',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+
+export const UserCancelCollect = (data: {
+  email,
+  shopId
+}) => {
+  return request({
+    url: '/users/cancelCollect',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+
 export const GetShopList = async (data: {
-  shopSort: number,
+  shopSort: string,
   page: number,
 }) => {
-  return request<any[]>({
+  return request<Shop[]>({
     url: '/shops/shopList',
     method: 'get',
     headers: {
@@ -57,7 +119,7 @@ export const PublishShop = async(data: {
   shopOwnerEmail: string;
 }) => {
   return request<any>({
-    url: '/shops/publish',
+    url: '/users/publish',
     method: 'post',
     headers: {
       Authorization: localStorage.getItem('token') || ''

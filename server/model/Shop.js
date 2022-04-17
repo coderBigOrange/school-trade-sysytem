@@ -8,6 +8,12 @@ const ShopSchema = new mongoose.Schema({
   shopSort: String,
   shopOwnerEmail: String,
   shopImgs: [String],
+  shopState: {
+    type: Number,
+    min: 1,
+    max: 2,
+    default: 1, //商品的状态，上架或者下架
+  },
   createTime: {
     type: Date,
     default: Date.now
@@ -16,6 +22,11 @@ const ShopSchema = new mongoose.Schema({
     { 
       content: String, //评论者的头像内容等信息
       email: String,
+      avatar: String,
+      likeCnt: {
+        type: Number,
+        default: 0
+      },
       name: String,
 			createTime: {
 				type: Date,

@@ -1,5 +1,4 @@
-//TODO: 这块可以增加一个统计图
-//TODO: 或者弹幕标签
+//TODO: 末尾加上一个我的货架，可以使用Swiper
 import React from "react";
 import TabButton from "../../components/TabButton";
 import VerticalFlexBox from "../../components/VerticalFlexBox";
@@ -54,7 +53,7 @@ const User: React.FC = () =>{
 				<div className={s.saleHistory}>
 					<VerticalFlexBox onClick={() => console.log('我发布的')}>
 						<div className={s.icon}>
-							<IconWrap iconName="biaoqian"/>
+							<IconWrap iconName="icon-biaoqian"/>
 						</div>
 						<div className={s.name}>
 							<span>我发布的</span>
@@ -63,7 +62,7 @@ const User: React.FC = () =>{
 					</VerticalFlexBox>
 					<VerticalFlexBox onClick={() => console.log('我的关注')}>
 						<div className={s.icon}>
-							<IconWrap iconName="gouwu"/>
+							<IconWrap iconName="icon-shoucang"/>
 						</div>
 						<div className={s.name}>
 							<span>我的关注</span>
@@ -72,7 +71,7 @@ const User: React.FC = () =>{
 					</VerticalFlexBox>
 					<VerticalFlexBox onClick={() => console.log('我的粉丝')}>
 						<div className={s.icon}>
-							<IconWrap iconName="dingdan"/>
+							<IconWrap iconName="icon-dianzan"/>
 						</div>
 						<div className={s.name}>
 							<span>我的粉丝</span>

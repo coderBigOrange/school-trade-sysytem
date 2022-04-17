@@ -18,7 +18,7 @@ const  uploadImgToQiNiu = async (file: File) => {
     }
     console.log('上传图片到七牛云失败:', response.statusText)
     Toast.show('上传图片到七牛云失败')
-    return false;
+    return '';
   } else {
     throw new Error('获取图片上传token失败')
   }

@@ -9,19 +9,21 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import user from './modules/user';
 import message from "./modules/message";
-import messageList from './modules/messageList'
+import messageList from './modules/messageList';
+import shopDetail from "./modules/shopDetail";
 import { persistStore } from 'redux-persist';
 
 const reducers = combineReducers({
   user,
   message,
-  messageList
+  messageList,
+  shopDetail
 })
 
 const persistConfig = {
   key: 'root',
   storage,
-  whilelist: ['user']
+  // whilelist: ['user']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

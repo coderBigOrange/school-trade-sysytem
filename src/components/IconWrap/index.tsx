@@ -1,3 +1,6 @@
+/**
+ * 封装便于使用阿里矢量图库
+ */
 import React from 'react'
 import s from './style.module.less';
 
@@ -11,7 +14,7 @@ const IconWrap: React.FC<IconWrapProps> = (props) => {
   return (
     <div style={{fontSize: size}}>
       <svg className={s.icon} aria-hidden="true">
-        <use xlinkHref={`#icon-${iconName}`}></use>
+        <use xlinkHref={`#${iconName}`}></use>
       </svg>
     </div>
   )

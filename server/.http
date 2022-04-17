@@ -37,7 +37,7 @@ Content-Type: application/json
 }
 
 ### 发布商品
-POST http://localhost:8080/shops/publish
+POST http://localhost:8080/users/publish
 Content-Type: application/json
 
 {
@@ -52,7 +52,10 @@ Content-Type: application/json
 }
 
 ### 获取商品列表
-get http://localhost:8080/shops/shopList?shopSort=1&page=0
+get http://localhost:8080/shops/shopList?shopSort=study&page=0
+
+### 获取用户发布的商品
+get  http://localhost:8080/users/shopList?userEmail=1810410221@student.cumtb.edu.cn
 
 ### 获取全部商品
 get http://localhost:8080/shops/allShops
