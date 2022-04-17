@@ -1,6 +1,7 @@
 //TODO: 这块的长列表后续可以使用react virtualized进行优化
 //TODO: 数据存入store避免切换时多次请求长列表
 //TODO GET请求没有拿到数据的问题，后端数据返回条数限制，应该分页 solved
+//TODO: useMemory了解一下
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Card from "../../components/ShopCard";
@@ -14,7 +15,8 @@ import {
   Button,
   Toast,
 } from 'antd-mobile';
-
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { updateActiveIdx } from "../../store/modules/memory";
 import { ComponentState, Shop, sorts } from "../../utils/interface";
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import {EditSFill} from 'antd-mobile-icons'
@@ -29,9 +31,11 @@ const Home: React.FC = () => {
   const [hasMore, setHasMore] = useState(true)
   const [activeIndex, setActiveIndex] = useState(1);
   const [pageIdx, setPageIdx] = useState(1);
-  const swiperRef = useRef<SwiperRef>(null)
+  const swiperRef = useRef<SwiperRef>(null);
   const [state, setState] = useState<ComponentState>(ComponentState.LODING)
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const lastActiveIdx = useAppSelector(state => state.memory.lastActiveIdx)
 
   const loadMore = async () => {
     const res = await GetShopList({
@@ -54,7 +58,13 @@ const Home: React.FC = () => {
       Toast.show(message)
     }
   }
+  
   useEffect(() => {
+    swiperRef.current?.swipeTo(lastActiveIdx)
+  }, [])
+
+  useEffect(() => {
+    dispatch(updateActiveIdx(activeIndex));
     (async () => {
       setState(ComponentState.LODING)
       const res = await GetShopList({
@@ -129,10 +139,8 @@ const Home: React.FC = () => {
       </div>
       <Swiper
           direction='horizontal'
-          loop
           indicator={() => null}
           ref={swiperRef}
-          defaultIndex={activeIndex}
           onIndexChange={index => {
             setActiveIndex(index)
           }}

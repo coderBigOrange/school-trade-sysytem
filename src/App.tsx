@@ -14,13 +14,10 @@ const App: React.FC = () => {
   const user = useAppSelector(state => state.user)
 
   useEffect(() => {
-    //TODO: 这里其实存在bug，应该和登录逻辑相结合
+    //TODO: 这里应该和登录逻辑相结合
     if(user.email && dispatch) {
       const socket = io('http://localhost:8080');
       socket.connect()
-      socket.on(`recicveMess${user.email}`, data => {
-        console.log(data)
-      })
       socket.on(`sendOver${user.email}`,( data: SimpleMessage) => {
         console.log('senOver', data)
         const {
@@ -32,6 +29,28 @@ const App: React.FC = () => {
         try {
           dispatch(insertMessage({
             email: recieverEmail,
+            message: { 
+              recieverEmail,
+              senderEmail,
+              content,
+              createTime
+            }
+          }))
+        } catch(err) {
+          console.log(err)
+        }
+      })
+      socket.on(`recicveMess${user.email}`, ( data: SimpleMessage) => {
+        console.log('recieve', data)
+        const {
+          recieverEmail,
+          senderEmail,
+          content,
+          createTime
+        } = data;
+        try {
+          dispatch(insertMessage({
+            email: senderEmail,
             message: {
               recieverEmail,
               senderEmail,

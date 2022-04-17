@@ -2,7 +2,7 @@ import {
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit';
-import { Shop } from '../../utils/interface';
+import { Shop, Comment } from '../../utils/interface';
 
 const initialState: Shop = {
   shopCollect: [],
@@ -26,9 +26,12 @@ export const ShopDetailSlice = createSlice({
   reducers: {
     updateShopDetail: (state, action: PayloadAction<Shop>) => {
       return action.payload
+    },
+    insertShopComment: (state, action: PayloadAction<Comment>) => {
+      state.ShopComment.unshift(action.payload)
     }
   }
 })
 
-export const { updateShopDetail } = ShopDetailSlice.actions;
+export const { updateShopDetail, insertShopComment } = ShopDetailSlice.actions;
 export default ShopDetailSlice.reducer;

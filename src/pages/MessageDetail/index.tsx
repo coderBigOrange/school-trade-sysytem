@@ -22,8 +22,8 @@ const MessageDetail:React.FC = () => {
   // const [allMessages, setAllMessages] = useState<SimpleMessage[]>([])
   const params = useParams()
   const userInfo = useAppSelector(state => state.user)
-  const dispatch = useAppDispatch();
   const allMessages = useAppSelector(state => state.message)
+  const dispatch = useAppDispatch();
   const [curMessages, setCurMessages] = useState<SimpleMessage[]>([]);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const MessageDetail:React.FC = () => {
   return (
     <div className={s.messageDetail}>
       <NavBar 
-        onBack={() => {navigate('/message')}}
+        onBack={() => {navigate(-1)}}
       >
         {params.name}
       </NavBar>

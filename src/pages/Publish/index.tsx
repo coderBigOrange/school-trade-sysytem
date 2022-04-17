@@ -59,7 +59,7 @@ const Publish: React.FC = () => {
   return (
     <div className={s.publish}>
       <NavBar
-        onBack={() => navigate('/home')}
+        onBack={() => navigate(-1)}
       >
         <span>发布</span>
       </NavBar>

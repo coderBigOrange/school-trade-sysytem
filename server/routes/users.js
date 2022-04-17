@@ -186,4 +186,46 @@ router.post('/cancelCollect', async(req, res, next) => {
   })
 })
 
+router.post('/comment', async(req, res, next) => {
+  const { 
+    content, 
+    email, 
+    avatar, 
+    name,
+    shopId,
+  } = req.body;
+  const id = Types.ObjectId(shopId)
+  const comment = {
+    content,
+    email,
+    avatar,
+    name,
+    createTime: new Date(),
+    likeCnt: 0
+  }
+  //将该商品id加入用户的评论清单
+  const user = await User.findOne(
+    {userEmail: email}
+  )
+  const isIn = user.userCommentList.find(
+    item => item.equals(shopId)
+  )
+  if(!isIn) {
+    await User.updateOne(
+      {userEmail: email},
+      {$push: {userCommentList: id}}
+    )
+  }
+  //将评论加入商品的评论列表
+  await Shop.updateOne(
+    {_id: id},
+    {$push: {ShopComment: comment}}
+  )
+  res.send({
+    code: 200,
+    message: '评论成功',
+    data: comment
+  })
+})
+
 module.exports = router;

@@ -27,7 +27,7 @@ const socketCallBack = (socket)=> {
       {$push: {userMessageList: res._id}}
     )
     socket.emit(`sendOver${senderEmail}`,res)
-    socket.emit(`recicveMess${recieverEmail}`,res)
+    socket.broadcast.emit(`recicveMess${recieverEmail}`,res)
   })
 }
 

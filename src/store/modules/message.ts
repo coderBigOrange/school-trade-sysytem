@@ -9,7 +9,7 @@ type UserMessageType = Record<string, SimpleMessage[]>
 const initialState: UserMessageType = {
   fake: []
 }
-
+//键email存的是对方的Email
 export const messageSlice = createSlice({
   name: 'message',
   initialState,

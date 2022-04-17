@@ -1,7 +1,8 @@
 import { 
   SimpleMessage, 
   MessageType,
-  Shop
+  Shop,
+  Comment
 } from '../utils/interface';
 import request from './network';
 
@@ -88,6 +89,23 @@ export const UserCancelCollect = (data: {
 }) => {
   return request({
     url: '/users/cancelCollect',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+
+export  const UserComment = (data: {
+  content: string, 
+  email: string, 
+  avatar: string, 
+  name: string,
+  shopId: string,
+}) => {
+  return request<Comment>({
+    url:'/users/comment',
     method: 'post',
     headers: {
       Authorization: localStorage.getItem('token') || ''
