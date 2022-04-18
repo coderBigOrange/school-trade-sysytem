@@ -4,7 +4,7 @@
 //TODO: useMemory了解一下
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import Card from "../../components/ShopCard";
+import ShopList from "../../components/ShopList";
 import TabButton from "../../components/TabButton";
 import ComponentWrap from "../../components/ComponentWrap";
 import {
@@ -16,7 +16,6 @@ import {
   Toast,
 } from 'antd-mobile';
 import { useAppSelector, useAppDispatch } from "../../hooks";
-import { updateActiveIdx } from "../../store/modules/memory";
 import { ComponentState, Shop, sorts } from "../../utils/interface";
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import {EditSFill} from 'antd-mobile-icons'
@@ -35,7 +34,6 @@ const Home: React.FC = () => {
   const [state, setState] = useState<ComponentState>(ComponentState.LODING)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const lastActiveIdx = useAppSelector(state => state.memory.lastActiveIdx)
 
   const loadMore = async () => {
     const res = await GetShopList({
@@ -58,13 +56,8 @@ const Home: React.FC = () => {
       Toast.show(message)
     }
   }
-  
-  useEffect(() => {
-    swiperRef.current?.swipeTo(lastActiveIdx)
-  }, [])
 
   useEffect(() => {
-    dispatch(updateActiveIdx(activeIndex));
     (async () => {
       setState(ComponentState.LODING)
       const res = await GetShopList({
@@ -97,6 +90,7 @@ const Home: React.FC = () => {
         <div className={s.navBar}>
           <div className={s.search}>
             <SearchBar 
+              onFocus={() => navigate('/search')}
               style={{ 
                 '--background': '#d7d7d7b0',
                 '--border-radius': '15px' ,
@@ -152,14 +146,7 @@ const Home: React.FC = () => {
                   <div className={s.body}>
                     <ComponentWrap state={state}>
                       <>
-                        {
-                          shopList.map(item => {
-                            return <Card 
-                              key={item.shopId}  
-                              {...item}
-                            />
-                          })
-                        }
+                        <ShopList shopList={shopList} />
                         <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
                       </>
                     </ComponentWrap>

@@ -1,3 +1,4 @@
+
 export enum CheckState {
   EMPTY = 0,
   WRONG =1,
@@ -87,6 +88,7 @@ export type Shop = {
   shopDescription: string;
   shopPrice: number;
   shopSort: string;
+  shopState: number;
   shopImgs: string[];
   shopLike: Like[],
   ShopComment: Comment[],
@@ -94,6 +96,11 @@ export type Shop = {
   userAvatar: string;
   userName: string;
   userStudentInfo: string;
+}
+
+export enum SearchType {
+  USER = 'user',
+  SHOP = 'shop'
 }
 
 export const sorts = [

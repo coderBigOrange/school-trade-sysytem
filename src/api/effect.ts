@@ -3,7 +3,8 @@ import {
   MessageType,
   Shop,
   Comment,
-  User
+  User,
+  SearchType
 } from '../utils/interface';
 import request from './network';
 
@@ -179,6 +180,18 @@ export const GetMessages = (data: {
     headers: {
       Authorization: localStorage.getItem('token') || ''
     },
+    params: data
+  })
+}
+
+//搜索商品或者用户
+export const GetSearch = (data: {
+  type: SearchType;
+  value: string;
+}) => {
+  return request<User[]|Shop[]>({
+    url: '/shops/search',
+    method: 'get',
     params: data
   })
 }

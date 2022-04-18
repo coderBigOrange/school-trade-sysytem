@@ -36,4 +36,36 @@ router.get('/allShops', async(req,res,next) => {
   })
 })
 
+//搜索
+router.get('/search', async (req,res,next) => {
+  const { type, value } = req.query; 
+  if(type === 'user') {
+    const users =  await User.find(
+      {$or: [
+        {userEmail: eval('/'+value+'/i')},
+        {userName:  eval('/'+value+'/i')},
+        {userStudentInfo:  eval('/'+value+'/i')}
+      ]}
+    )
+    res.send({
+      code: 200,
+      message: '搜索用户成功',
+      data: users
+    })
+  } else {
+    const shops = await Shop.find(
+      {$or: [
+        {shopTitle:  eval('/'+value+'/i')},
+        {shopDescription:   eval('/'+value+'/i')}
+      ]}
+    )
+  const data = await promisesWrap(shops, getShopUserInfo);
+    res.send({
+      code: 200,
+      message: '搜索商品成功',
+      data: data
+    })
+  }   
+})
+
 module.exports = router;

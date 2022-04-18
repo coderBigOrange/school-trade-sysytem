@@ -138,7 +138,7 @@ const ShopDetail: React.FC = () => {
                     '--border-radius': '50%',
                     '--size': '33px'
                   }} 
-                  src={userAvatar}
+                  src={userInfo.userAvatar}
                   onClick={() => onclickAvatar(shopOwnerEmail)}
                 />
               </div>

@@ -11,6 +11,7 @@ import Page404 from '../pages/404';
 import Publish from "../pages/Publish";
 import MessageDetail from "../pages/MessageDetail";
 import ShopDetail from "../pages/ShopDetail";
+import SearchDetail from "../pages/SearchDetail";
 
 export type RouteConfig = {
   path: string; 
@@ -42,6 +43,10 @@ export const routerConfig:RouteConfig[] = [
 		path: '/message/detail/:name/:avatar/:email',
 		element: <MessageDetail />,
 		auth: true,
+	},
+	{
+		path: '/search',
+		element: <SearchDetail />
 	},
 	{
 		path: '/publish',

@@ -8,22 +8,29 @@ import {
 } from '@reduxjs/toolkit';
 
 interface Memory {
-  lastActiveIdx: number;
+  searchHistory: string[];
 }
 
 const initialState: Memory = {
-  lastActiveIdx: 1
+  searchHistory: []
 }
 
 export const memorySlice  = createSlice({
   name: 'memory',
   initialState,
   reducers: {
-    updateActiveIdx: (state, action: PayloadAction<number>) => {
-      state.lastActiveIdx = action.payload
-    } 
+    addHistorySearch: (state, action: PayloadAction<string>) => {
+      const value = action.payload;
+      if( value && !state.searchHistory.includes(value)) {
+        state.searchHistory.unshift(value)
+      }
+    },
+    deleteHistorySearch: (state, action: PayloadAction<string>) => {
+      const history = state.searchHistory;
+      state.searchHistory = history.filter(item => item !== action.payload)
+    }
   }
 })
 
-export const { updateActiveIdx } = memorySlice.actions;
+export const { addHistorySearch, deleteHistorySearch } = memorySlice.actions;
 export default memorySlice.reducer;

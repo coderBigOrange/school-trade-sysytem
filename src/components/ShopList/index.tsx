@@ -25,7 +25,7 @@ import { useNavigate } from "react-router-dom";
 
 //TODO: 不能重复点赞以及点赞的状态保持;收藏同样如此
 
-const Card:React.FC<Shop> = (props) => {
+const ShopCard:React.FC<Shop> = (props) => {
   const { 
     userAvatar = '',
     userName = '',
@@ -213,4 +213,21 @@ const Card:React.FC<Shop> = (props) => {
   )
 }
 
-export default Card;
+
+const ShopList: React.FC<{shopList: Shop[]}> = (props) => {
+  const { shopList = [] } = props;  
+  return (
+    <>
+      {
+        shopList.map(item => {
+        return <ShopCard 
+          key={item.shopId}  
+          {...item}
+        />
+      })
+      }
+    </>
+  )
+}
+
+export default ShopList;
