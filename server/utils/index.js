@@ -13,7 +13,8 @@ const getShopUserInfo = async (shop) => {
     shopLike,
     ShopComment,
     shopCollect,
-    _id
+    _id,
+    createTime
   } = shop;
   return User.findOne({
     userEmail: shopOwnerEmail
@@ -36,7 +37,8 @@ const getShopUserInfo = async (shop) => {
       userAvatar,
       userName,
       userStudentInfo,
-      shopId: _id
+      shopId: _id,
+      createTime
     })
   })
 }
@@ -106,6 +108,7 @@ const uploadToken = putPolicy.uploadToken(mac)
 return uploadToken;
 }
 
+//更新消息列表，消息列表只展示最新的一条消息
 const updateMessageList = async (self,other, content) => {
   let selfMessageList = self.messageList;
   const {

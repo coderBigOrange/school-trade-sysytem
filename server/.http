@@ -15,6 +15,9 @@ Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjF
 get http://localhost:8080/messages/messages?selfEmail=1810410221@student.cumtb.edu.cn&otherEmail=1710410221@student.cumtb.edu.cn
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY
 
+### 获取用户发布的商品
+get  http://localhost:8080/users/userPublishList?email=1810410221@student.cumtb.edu.cn
+
 ### 获取消息列表
 get http://localhost:8080/users/messageList?userEmail=1710410221@student.cumtb.edu.cn
 Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY

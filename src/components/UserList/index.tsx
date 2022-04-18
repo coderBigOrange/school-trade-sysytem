@@ -2,6 +2,7 @@ import React from "react";
 import { User } from "../../utils/interface";
 import s from './style.moduel.less' ;
 import { Avatar } from "antd-mobile";
+import { useNavigate } from "react-router-dom";
 
 const UserCard: React.FC<User> = (props) => {
   const {
@@ -10,9 +11,13 @@ const UserCard: React.FC<User> = (props) => {
     userName,
     userStudentInfo
   } = props;
+  const navigate = useNavigate();
+  const onClickUser = () => {
+    navigate(`/userDetail/${userEmail}`)
+  }
 
   return (
-    <div className={s.user}>
+    <div className={s.user} onClick={onClickUser}>
       <div className={s.avatar}>
         <Avatar 
           style={{'--border-radius': '50%'}} 

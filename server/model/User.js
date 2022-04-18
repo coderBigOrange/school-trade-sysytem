@@ -24,7 +24,10 @@ const UserSchema = new mongoose.Schema({
 		max: 2
 	},
 	userStudentInfo: String,
-	userIntroduce: String,
+	userIntroduce: {
+		type: String,
+		default: '这个人很懒喔，连自我介绍都没有~'
+	},
 	userAddress: String,
 	userBirth: {
 		type: Date,

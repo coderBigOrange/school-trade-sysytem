@@ -6,12 +6,13 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Home from '../pages/Home';
 import Message from '../pages/Message';
-import User from '../pages/User';
+import Me from '../pages/Me';
 import Page404 from '../pages/404';
 import Publish from "../pages/Publish";
 import MessageDetail from "../pages/MessageDetail";
 import ShopDetail from "../pages/ShopDetail";
 import SearchDetail from "../pages/SearchDetail";
+import UserDetail from "../pages/UserDetail";
 
 export type RouteConfig = {
   path: string; 
@@ -55,8 +56,13 @@ export const routerConfig:RouteConfig[] = [
 	},
 	{
 		path: '/me',
-		element: <User />,
+		element: <Me />,
 		auth: true,
+	},
+	{
+		path: '/userDetail/:email',
+		element: <UserDetail />,
+		auth: true
 	},
 	{
 		path: '/shopDetail',

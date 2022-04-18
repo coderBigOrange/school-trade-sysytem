@@ -8,6 +8,7 @@ const initialState: Shop = {
   shopCollect: [],
   shopDescription: '',
   shopId: '',
+  createTime: '',
   shopState: 1,
   shopImgs: [],
   shopLike: [],

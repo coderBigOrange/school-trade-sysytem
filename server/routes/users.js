@@ -3,12 +3,19 @@ var router = express.Router();
 const { User } = require('../model/User')
 const { Shop } = require('../model/Shop')
 const { promisesWrap, getMessageInfo} = require('../utils/index');
-const { Message } = require('../model/Message');
-const { Schema, Types } = require('../db/mongodb');
+const { Types } = require('../db/mongodb');
 // 获取用户信息
 router.get('/info', async (req, res, next) => {
-  const user = await User.findOne({
-    _id: req.user_id  })
+  const { email } = req.query;
+  if(!email) {
+    console.log(email)
+    res.send({
+      code: 500,
+      message: '参数错误',
+    })
+    return
+  }
+  const user = await User.findOne({userEmail: email})
   res.send({
     code: 200,
     message: '获取成功',
@@ -86,15 +93,64 @@ router.post('/publish', async(req, res, next) => {
 })
 
 // 获取用户发布的商品
-router.get('/shopList', async (req, res, next) => {
-  const { userEmail } = req.query
+router.get('/userPublishList', async (req, res, next) => {
+  const { email } = req.query
+  if(!email) {
+    console.log(email)
+    res.send({
+      code: 500,
+      message: '参数错误',
+    })
+    return
+  }
   const user = await User.findOne({
-    userEmail
+    userEmail: email
+  })
+  const {
+    userAvatar,
+    userName,
+    userStudentInfo,
+    userPublishList
+  } = user;
+  const publishListId = userPublishList.map(item => Types.ObjectId(item));
+  const shopList = await Shop.find(
+    {_id: {$in: publishListId}}
+  )
+  const data = shopList.map(item => {
+    const { 
+      shopOwnerEmail,
+      shopTitle,
+      shopDescription,
+      shopPrice,
+      shopSort,
+      shopImgs,
+      shopLike,
+      ShopComment,
+      shopCollect,
+      _id,
+      createTime
+    } = item;
+    return {
+      shopOwnerEmail,
+      shopTitle,
+      shopDescription,
+      shopPrice,
+      shopSort,
+      shopImgs,
+      shopLike,
+      ShopComment,
+      shopCollect,
+      shopId: _id,
+      createTime,
+      userAvatar,
+      userName,
+      userStudentInfo
+    }
   })
   res.send({
     code: 200,
-    message: '获取用户发布商品成功',
-    data: user.userPublishList
+    message: '获取用户发布的商品列表成功',
+    data
   })
 })
 

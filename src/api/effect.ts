@@ -37,8 +37,24 @@ export const UserRegister = (data: {
   })
 }
 
-export const GetUserInfo = () => {
+export const GetUserInfo = (data: {
+  email: string
+}) => {
+  return request<User>({
+    url: '/users/info',
+    method: 'get',
+    params: data
+  })
+}
 
+export  const GetUserPublished = (data: {
+  email: string
+}) => {
+  return request<Shop[]>({
+    url: '/users/userPublishList',
+    method: 'get',
+    params: data
+  })
 }
 
 export const UserLike = (data: {

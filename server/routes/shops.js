@@ -6,15 +6,21 @@ const { Shop } = require('../model/Shop');
 const { getShopUserInfo, promisesWrap } = require('../utils');
 
 
-//获取商品列表
+//获取商品列表 TODO: 针对关注一列还没有进行处理
+//目前已知Mongodb返回的内容是插入顺序排序的
 router.get('/shopList', async(req, res, next)=>{
   const {
     shopSort,
     page,
-  } = req.query
-  const shopList = await Shop.find({
-    shopSort
-  })
+  } = req.query;
+  let shopList;
+  if(shopSort === 'recommend') {
+    shopList = await Shop.find({})
+  } else {
+    shopList = await Shop.find({
+      shopSort
+    })
+  }
   const start = page*5;
   const end = page*5 + 5;
   let tempData = shopList.slice(start, end)

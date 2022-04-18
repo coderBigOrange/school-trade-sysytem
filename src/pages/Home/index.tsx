@@ -15,7 +15,7 @@ import {
   Button,
   Toast,
 } from 'antd-mobile';
-import { useAppSelector, useAppDispatch } from "../../hooks";
+import debounce from 'lodash/debounce'
 import { ComponentState, Shop, sorts } from "../../utils/interface";
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import {EditSFill} from 'antd-mobile-icons'
@@ -33,9 +33,9 @@ const Home: React.FC = () => {
   const swiperRef = useRef<SwiperRef>(null);
   const [state, setState] = useState<ComponentState>(ComponentState.LODING)
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  const loadMore = async () => {
+  //TODO: 对loadMore使用debounce会出现浏览器卡死的情况，应该是Infinit的内部bug，研究一下
+  const loadMore = (async () => {
     const res = await GetShopList({
       shopSort: sorts[activeIndex].value,
       page: pageIdx
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
     } else {
       Toast.show(message)
     }
-  }
+  })
 
   useEffect(() => {
     (async () => {
@@ -134,6 +134,7 @@ const Home: React.FC = () => {
       <Swiper
           direction='horizontal'
           indicator={() => null}
+          defaultIndex={1}
           ref={swiperRef}
           onIndexChange={index => {
             setActiveIndex(index)
