@@ -92,6 +92,19 @@ router.post('/publish', async(req, res, next) => {
   })
 })
 
+//用户改变商品上/下架状态
+router.post('/unPublish', async (req,res,next) => {
+  const { shopId, shopState } = req.body;
+  await Shop.updateOne(
+    {_id: Types.ObjectId(shopId)},
+    {shopState: shopState}
+  )
+  return res.send({
+    code: 200,
+    message: '操作成功',
+  })
+})
+
 // 获取用户发布的商品
 router.get('/userPublishList', async (req, res, next) => {
   const { email } = req.query
@@ -284,9 +297,62 @@ router.post('/comment', async(req, res, next) => {
   })
 })
 
-// router.post('/subscribe', (req,res,next) => {
-//   const { selfEmail, otherEmail } = req.body;
+router.post('/subscribe', async (req,res,next) => {
+  const { selfEmail, otherEmail } = req.body;
+  if(!selfEmail || !otherEmail) {
+    res.send({
+      code: 500,
+      message: '参数错误'
+    })
+    return;
+  }
+  //将别人Email加入自己的关注列表
+  await User.updateOne(
+    {userEmail: selfEmail},
+    {$push: {userSubscribe: otherEmail}}
+  )
+  //将自己的Email加入别人的粉丝列表
+  await User.updateOne(
+    {userEmail: otherEmail},
+    {$push: {userBeSubscribed: selfEmail}}
+  )
+  res.send({
+    code: 200,
+    message: '关注成功'
+  })
+})
 
-// })
+router.post('/unSubscribe', async (req, res, next) => {
+  const { selfEmail, otherEmail } = req.body;
+  if(!selfEmail || !otherEmail) {
+    res.send({
+      code: 500,
+      message: '参数错误'
+    })
+    return;
+  }
+  const self = await User.findOne({
+    userEmail: selfEmail
+  })
+  const newUserSubscribe = self.userSubscribe.filter(item => item !== otherEmail) 
+   //将别人Email从自己的关注列表移除
+  await User.updateOne(
+    {userEmail: selfEmail},
+    {$set: {userSubscribe: newUserSubscribe}}
+  )
+  //将自己的email从他人的粉丝列表中移除
+  const other = await User.findOne({
+    userEmail: otherEmail
+  })
+  const newUserBeSubscribe = other.userBeSubscribed.filter(item => item !== selfEmail)
+  await User.updateOne(
+    {userEmail: otherEmail},
+    {$set: {userBeSubscribed: newUserBeSubscribe}}
+  )
+  res.send({
+    code: 200,
+    message: '取消关注成功'
+  })
+})
 
 module.exports = router;

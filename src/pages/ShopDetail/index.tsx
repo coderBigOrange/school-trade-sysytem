@@ -1,7 +1,7 @@
 /**
  * TODO: 区分自己发布的和他人发布的
  */
-import React, { useRef, useState }  from "react";
+import React, { useEffect, useRef, useState }  from "react";
 import s from './style.module.less';
 import {
   NavBar,
@@ -15,8 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { formatDate } from "../../utils";
 import debounce from 'lodash/debounce'
-import { UserComment } from "../../api/effect";
+import { UserComment ,UnPublishShop,UserSubscribe, UserUnSubscribe } from "../../api/effect";
 import { insertShopComment } from "../../store/modules/shopDetail";
+import { addSubScribe, deleteSubScribe } from "../../store/modules/user";
+
+
 
 
 const ShopDetail: React.FC = () => {
@@ -26,6 +29,8 @@ const ShopDetail: React.FC = () => {
   const messRef = useRef(null);
   const [commentVal, setCommentVal] = useState('');
   const dispatch = useAppDispatch();
+  const [isSubScribe, setIsSubScribe] = useState(false);
+
   const {
     userAvatar,
     userName,
@@ -39,14 +44,55 @@ const ShopDetail: React.FC = () => {
     ShopComment,
     shopLike,
     shopId,
+    shopState,
     shopOwnerEmail
   } = detailInfo;
 
-  const onSubScribe = () => {
-    console.log('subscibe')
+  useEffect(() => {
+    if(userInfo.userSubscribe.includes(shopOwnerEmail)) {
+      setIsSubScribe(true);
+    }
+  },[shopOwnerEmail, userInfo.userSubscribe])
+
+  const subscribe = async () => {
+    const res = await UserSubscribe({
+      selfEmail: userInfo.userEmail,
+      otherEmail: shopOwnerEmail
+    })
+    console.log(res)
+    const {
+      code,
+      message
+    } = res;
+    if(code === 200) {
+      dispatch(addSubScribe(shopOwnerEmail))
+      setIsSubScribe(true)
+    } else {
+      Toast.show(message)
+    }
+  }
+  const unSubscibe = async () => {
+    const res = await UserUnSubscribe({
+      selfEmail: userInfo.userEmail,
+      otherEmail: shopOwnerEmail
+    })
+    const {
+      code,
+      message
+    } = res;
+    if(code === 200) {
+      dispatch(deleteSubScribe(shopOwnerEmail))
+      setIsSubScribe(false)
+    } else {
+      Toast.show(message)
+    }
   }
   const onclickAvatar = (email: string) => {
-    console.log(email)
+    if(email === userInfo.userEmail) {
+      navigate('/me')
+    } else {
+      navigate(`/userDetail/${email}`)
+    }
   }
   const onClickChat = () => {
     navigate(`/message/detail/${userName}/${encodeURIComponent(userAvatar)}/${shopOwnerEmail}`)
@@ -54,8 +100,20 @@ const ShopDetail: React.FC = () => {
   const onClickPublish = () => {
     navigate('/publish')
   }
+  const onChangeShopState = async() => {
+      let newState = shopState === 1
+        ? 2
+        : 1;
+      const res = await UnPublishShop({
+      shopId,
+      shopState: newState
+    });
+    if(res.code === 200) {
+      Toast.show(res.message);
+      navigate('/home')
+    }
+  }
   const sendComment = () => {
-    console.log(commentVal);
     (async () => {
       const res =  await UserComment({
         content: commentVal,
@@ -96,12 +154,29 @@ const ShopDetail: React.FC = () => {
             <div className={s.userName}>{userName}</div>
             <div className={s.otherInfo}>{userStudentInfo}</div>
           </div>
-          <div 
-            className={s.subscribe}
-            onClick={onSubScribe}
-          >
-            +&nbsp;关注
-          </div>
+          {
+            shopOwnerEmail !== userInfo.userEmail && (
+              <>
+                {
+                  isSubScribe ? (
+                    <div 
+                      className={s.unSubscibe}
+                      onClick={unSubscibe}
+                    >
+                      已关注
+                    </div>
+                  ) : (
+                    <div 
+                      className={s.subscribe}
+                      onClick={subscribe}
+                    >
+                      +&nbsp;关注
+                    </div>
+                  )
+                }
+              </>
+            )
+          }
         </div>
       </div>
       <div className={s.body}>
@@ -203,32 +278,80 @@ const ShopDetail: React.FC = () => {
       </div>
       <div className={s.footer}>
         <div className={s.left}></div>
-        <div className={s.right}>
-          <Button 
-            shape="rounded"
-            onClick={onClickPublish}
-            style={{
-              '--background-color': '#f3f3f3',
-              'fontSize': '16px',
-              'fontWeight': 'bold'
-            }}
-            fill="solid"
-          >
-            卖同款
-          </Button>
-          <Button
-            shape="rounded"
-            onClick={onClickChat}
-            style={{
-              '--background-color': '#ffe700d6',
-              'fontSize': '16px',
-              'fontWeight': 'bold'
-            }}
-            fill="solid"
-          >
-            我想要
-          </Button>
-        </div>
+          {
+            shopOwnerEmail !== userInfo.userEmail ? (
+              <div className={s.right}>
+                <Button 
+                  shape="rounded"
+                  onClick={onClickPublish}
+                  style={{
+                    '--background-color': '#f3f3f3',
+                    'fontSize': '16px',
+                    'fontWeight': 'bold'
+                  }}
+                  fill="solid"
+                >
+                  卖同款
+                </Button>
+                <Button
+                  shape="rounded"
+                  onClick={onClickChat}
+                  style={{
+                    '--background-color': '#ffe700d6',
+                    'fontSize': '16px',
+                    'fontWeight': 'bold'
+                  }}
+                  fill="solid"
+                >
+                  我想要
+                </Button>
+            </div>
+            ) : (
+              <div className={s.right}>
+                <Button 
+                  shape="rounded"
+                  onClick={onClickPublish}
+                  style={{
+                    '--background-color': '#f3f3f3',
+                    'fontSize': '16px',
+                    'fontWeight': 'bold'
+                  }}
+                  fill="solid"
+                >
+                  再发布一款
+                </Button>
+                {
+                  shopState === 1 ? (
+                    <Button
+                      shape="rounded"
+                      onClick={onChangeShopState}
+                      style={{
+                        '--background-color': '#ff2828d6',
+                        'fontSize': '16px',
+                        'fontWeight': 'bold'
+                      }}
+                      fill="solid"
+                    >
+                      下架商品
+                    </Button>
+                  ) : (
+                    <Button
+                      shape="rounded"
+                      onClick={onChangeShopState}
+                      style={{
+                        '--background-color': '#4581ccd6',
+                        'fontSize': '16px',
+                        'fontWeight': 'bold'
+                      }}
+                      fill="solid"
+                    >
+                      重新上架
+                    </Button>
+                  )
+                }
+              </div>
+            )
+          }
       </div>
     </div>
   )

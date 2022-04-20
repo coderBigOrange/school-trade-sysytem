@@ -115,6 +115,34 @@ export const UserCancelCollect = (data: {
   })
 }
 
+export const UserSubscribe = (data: {
+  selfEmail: string;
+  otherEmail: string;
+}) => {
+  return request({
+    url: '/users/subscribe',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+
+export const UserUnSubscribe = (data: {
+  selfEmail: string;
+  otherEmail: string;
+}) => {
+  return request({
+    url: '/users/unSubscribe',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+
 export  const UserComment = (data: {
   content: string, 
   email: string, 
@@ -135,6 +163,7 @@ export  const UserComment = (data: {
 export const GetShopList = async (data: {
   shopSort: string,
   page: number,
+  email?: string;
 }) => {
   return request<Shop[]>({
     url: '/shops/shopList',
@@ -163,6 +192,20 @@ export const PublishShop = async(data: {
     data
   })
 } 
+
+export const UnPublishShop = async (data: {
+  shopId: string;
+  shopState: number;
+}) => {
+  return request<any>({
+    url: '/users/unPublish',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
 
 export const GetQiNiuToken = () => {
   return request<{token: string; key: string}>({

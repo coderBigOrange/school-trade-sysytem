@@ -4,7 +4,8 @@ import {
   Avatar, 
   ImageViewer,
   Image,
-  Toast
+  Toast,
+  WaterMark
 } from 'antd-mobile';
 import classnames from "classnames";
 import {
@@ -24,6 +25,14 @@ import { updateShopDetail } from "../../store/modules/shopDetail";
 import { useNavigate } from "react-router-dom";
 
 //TODO: 不能重复点赞以及点赞的状态保持;收藏同样如此
+const imageProps = {
+  image:
+    'https://gw.alipayobjects.com/zos/bmw-prod/59a18171-ae17-4fc5-93a0-2645f64a3aca.svg',
+  imageWidth: 115,
+  imageHeight: 36,
+  width: 140,
+  height: 80,
+}
 
 const ShopCard:React.FC<Shop> = (props) => {
   const { 
@@ -37,7 +46,8 @@ const ShopCard:React.FC<Shop> = (props) => {
     ShopComment = [],
     shopCollect = [],
     shopLike = [],
-    shopId
+    shopId,
+    shopState
   } = props || {};
   const userInfo = useAppSelector(state => state.user)
   const dispatch = useAppDispatch();
@@ -50,9 +60,8 @@ const ShopCard:React.FC<Shop> = (props) => {
 
   useEffect(() => {
     if(userInfo.userEmail && shopCollect && shopLike) {
-      setLikeCnt(shopCollect.length);
+      setLikeCnt(shopLike.length);
       setCollectCnt(shopCollect.length);
-
       const likeIdx = shopLike.findIndex(item => item.email === userInfo.userEmail)
       if(likeIdx < 0) {
         setIsLike(false)
@@ -73,81 +82,73 @@ const ShopCard:React.FC<Shop> = (props) => {
     navigate('/shopDetail')
   }
 
-  const onClickLike = (e) => {
+  const onClickLike = async (e) => {
     e.stopPropagation()
     if(isLike) {
-      (async () => {
-        const res = await UserCancelLike({
-          email: userInfo.userEmail,
-          shopId
-        })
-        //结构请求之后，数据库数据已经改变，但是这边没有重新请求（也没必要），所以在本地改变
-        const {
-          code,
-          message
-        } = res
-        if(code === 200) {
-          setLikeCnt(likeCnt-1)
-        } else {
-          Toast.show(message)
-        }
-      })()
+      const res = await UserCancelLike({
+        email: userInfo.userEmail,
+        shopId
+      })
+      //结构请求之后，数据库数据已经改变，但是这边没有重新请求（也没必要），所以在本地改变
+      const {
+        code,
+        message
+      } = res
+      if(code === 200) {
+        setLikeCnt(likeCnt-1)
+      } else {
+        Toast.show(message)
+      }
     } else {
-      (async () => {
-        const res = await UserLike({
-          email: userInfo.userEmail,
-          name: userInfo.userName,
-          shopId
-        })
-        const {
-          code,
-          message
-        } = res
-        if(code === 200) {
-          setLikeCnt(likeCnt+1)
-        } else {
-          Toast.show(message)
-        }
-      })()
+      const res = await UserLike({
+        email: userInfo.userEmail,
+        name: userInfo.userName,
+        shopId
+      })
+      const {
+        code,
+        message
+      } = res
+      if(code === 200) {
+        setLikeCnt(likeCnt+1)
+      } else {
+        Toast.show(message)
+      }
     }
     setIsLike(!isLike)
   }
-  const onClickCollect = (e) => {
+  const onClickCollect = async (e) => {
     e.stopPropagation()
     if(isCollected) {
-      (async () => {
-        const res = await UserCancelCollect({
-          email: userInfo.userEmail,
-          shopId
-        })
-        //结构请求之后，数据库数据已经改变，但是这边没有重新请求（也没必要），所以在本地改变
-        const {
-          code,
-          message
-        } = res
-        if(code === 200) {
-          setCollectCnt(collectCnt-1)
-        } else {
-          Toast.show(message)
-        }
-      })()
+      const res = await UserCancelCollect({
+        email: userInfo.userEmail,
+        shopId
+      })
+      //结构请求之后，数据库数据已经改变，但是这边没有重新请求（也没必要），所以在本地改变
+      const {
+        code,
+        message
+      } = res
+      if(code === 200) {
+        setCollectCnt(collectCnt-1)
+      } else {
+        Toast.show(message)
+      }
     } else {
-      (async () => {
-        const res = await UserCollect({
-          email: userInfo.userEmail,
-          name: userInfo.userName,
-          shopId
-        })
-        const {
-          code,
-          message
-        } = res
-        if(code === 200) {
-          setCollectCnt(collectCnt+1)
-        } else {
-          Toast.show(message)
-        }
-      })()
+      const res = await UserCollect({
+        email: userInfo.userEmail,
+        name: userInfo.userName,
+        shopId
+      })
+      const {
+        code,
+        message
+      } = res
+      if(code === 200) {
+        setCollectCnt(collectCnt+1)
+      } else {
+        Toast.show(message)
+      }
     }
     setIsCollected(!isCollected)
   }
@@ -156,6 +157,18 @@ const ShopCard:React.FC<Shop> = (props) => {
       className={s.card}
       onClick={handleCardClick}
     >
+      {
+        shopState === 2 && (<div className={s.mask}>
+          商品已下架
+          <WaterMark          
+            content={'抱歉，商品已下架'}
+            gapX={12}
+            gapY={24}
+            fontColor={'#ffffff2b'}
+            fullPage={false}
+          />
+        </div>)
+      }
       <div className={s.header}>
         <div className={s.avatar}>
           <Avatar src={userAvatar}/>

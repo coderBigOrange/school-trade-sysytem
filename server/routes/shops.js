@@ -6,17 +6,40 @@ const { Shop } = require('../model/Shop');
 const { getShopUserInfo, promisesWrap } = require('../utils');
 
 
-//获取商品列表 TODO: 针对关注一列还没有进行处理
+//获取商品列表 
 //目前已知Mongodb返回的内容是插入顺序排序的
 router.get('/shopList', async(req, res, next)=>{
   const {
     shopSort,
     page,
+    email
   } = req.query;
+  if(!shopSort || !page) {
+    console.log(req.query)
+    res.send({
+      code: 500,
+      message: '参数错误',
+    })
+    return;
+  }
   let shopList;
   if(shopSort === 'recommend') {
     shopList = await Shop.find({})
-  } else {
+  } else if(shopSort === 'care') {
+    if(!email) {
+      res.send({
+        code: 401,
+        message: '抱歉，需要登录后查看',
+      })
+      return
+    }
+    const user = await User.findOne({
+      userEmail: email
+    })
+    shopList = await Shop.find(
+      {shopOwnerEmail: {$in: user.userSubscribe}}
+    )
+  }else {
     shopList = await Shop.find({
       shopSort
     })

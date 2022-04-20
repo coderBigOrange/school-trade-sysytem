@@ -14,7 +14,8 @@ const getShopUserInfo = async (shop) => {
     ShopComment,
     shopCollect,
     _id,
-    createTime
+    createTime,
+    shopState
   } = shop;
   return User.findOne({
     userEmail: shopOwnerEmail
@@ -38,7 +39,8 @@ const getShopUserInfo = async (shop) => {
       userName,
       userStudentInfo,
       shopId: _id,
-      createTime
+      createTime,
+      shopState
     })
   })
 }

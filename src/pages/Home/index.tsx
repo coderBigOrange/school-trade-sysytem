@@ -21,6 +21,7 @@ import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import {EditSFill} from 'antd-mobile-icons'
 import { GetShopList } from "../../api/effect";
 import s from "./style.module.less";
+import { useAppSelector } from "../../hooks";
 
 const { Item } = Swiper;
 const { Tab } = Tabs;
@@ -33,12 +34,22 @@ const Home: React.FC = () => {
   const swiperRef = useRef<SwiperRef>(null);
   const [state, setState] = useState<ComponentState>(ComponentState.LODING)
   const navigate = useNavigate();
+  const user = useAppSelector(state => state.user)
 
   //TODO: 对loadMore使用debounce会出现浏览器卡死的情况，应该是Infinit的内部bug，研究一下
   const loadMore = (async () => {
+    let email: string = '';
+    if(sorts[activeIndex].value === 'care') {
+      if(user.userEmail && localStorage.getItem('token')) {
+        email = user.userEmail;
+      } else {
+        navigate('/login')
+      }
+    }
     const res = await GetShopList({
       shopSort: sorts[activeIndex].value,
-      page: pageIdx
+      page: pageIdx,
+      email
     });
     const {
       code,
@@ -59,10 +70,20 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     (async () => {
+      //如果是关注，需要判断用户是否登录
+      let email: string = '';
+      if(sorts[activeIndex].value === 'care') {
+        if(user.userEmail && localStorage.getItem('token')) {
+          email = user.userEmail;
+        } else {
+          navigate('/login')
+        }
+      }
       setState(ComponentState.LODING)
       const res = await GetShopList({
         shopSort: sorts[activeIndex].value,
-        page: 0
+        page: 0,
+        email
       })
       const {
         code,

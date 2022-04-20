@@ -1,17 +1,42 @@
 //TODO: 末尾加上一个我的货架，可以使用Swiper
-import React from "react";
+import React, { useEffect } from "react";
 import TabButton from "../../components/TabButton";
 import VerticalFlexBox from "../../components/VerticalFlexBox";
 import s from './style.module.less';
-import { Avatar, Button, List } from "antd-mobile";
+import { Avatar, Button, List, Toast } from "antd-mobile";
 import { SetOutline } from 'antd-mobile-icons'
 import IconWrap from "../../components/IconWrap";
-import { useAppSelector } from "../../hooks";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { GetUserInfo } from "../../api/effect";
+import { updateAll } from "../../store/modules/user";
 
 const { Item } = List;
 
 const User: React.FC = () =>{
 	const user = useAppSelector(state => state.user)
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		if(user.userEmail && dispatch) {
+			(async () => {
+				const res = await GetUserInfo({
+					email: user.userEmail
+				})
+				const {
+					code,
+					data,
+					message
+				} = res;
+				if(code === 200) {
+					dispatch(updateAll(data))
+				} else {
+					Toast.show(message)
+				}
+			})();
+		}
+	}, [user.userEmail, dispatch])
+	const userLogout = () => {
+		console.log('用户注销')
+	}
 	return (
 		<div className={s.user}>
 			<div className={s.baseInfo}>
@@ -31,10 +56,6 @@ const User: React.FC = () =>{
 						<div className={s.count}>{user.userCollectList.length}</div>
 						<div className={s.name}>我收藏的</div>
 					</VerticalFlexBox>
-					{/* <VerticalFlexBox onClick={() => console.log('我浏览的')}>
-						<div className={s.count}></div>
-						<div className={s.name}>我浏览的</div>
-					</VerticalFlexBox> */}
 					<VerticalFlexBox onClick={() => console.log('我喜欢的')}>
 						<div className={s.count}>{user.userLikeList.length}</div>
 						<div className={s.name}>我喜欢的</div>
@@ -44,9 +65,9 @@ const User: React.FC = () =>{
 						<div className={s.name}>我评论的</div>
 					</VerticalFlexBox>
 				</div>
-				<div className={s.settingIcon}>
+				{/* <div className={s.settingIcon}>
 					<SetOutline />
-				</div>
+				</div> */}
 			</div> 
 			<div className={s.history}>
 				<div className={s.title}>基本信息</div>
@@ -80,35 +101,20 @@ const User: React.FC = () =>{
 					</VerticalFlexBox>
 				</div>
 			</div>
-			{/* <div className={s.setting}>
-				<List header={<div className={s.title}>辅助功能</div>}>
+			<div className={s.setting}>
+				<List header={<div className={s.title}>其他操作</div>}>
 					<Item 
 						prefix={<IconWrap iconName="diadema"/>}
 						onClick={() => {console.log('你好')}}>
-							待定
+							修改个人信息
 					</Item>
 					<Item 
 						prefix={<IconWrap iconName="diadema"/>}
-						onClick={() => {console.log('你好')}}>
-							待定
-					</Item>
-					<Item 
-						prefix={<IconWrap iconName="diadema"/>}
-						onClick={() => {console.log('你好')}}>
-							待定
-					</Item>
-					<Item 
-						prefix={<IconWrap iconName="diadema"/>}
-						onClick={() => {console.log('你好')}}>
-							待定
-					</Item>
-					<Item 
-						prefix={<IconWrap iconName="diadema"/>}
-						onClick={() => {console.log('你好')}}>
-							待定
+						onClick={userLogout}>
+							注销登录
 					</Item>
 				</List>
-			</div> */}
+			</div>
 			<TabButton />
 		</div>
 	)

@@ -8,11 +8,11 @@ const ShopSchema = new mongoose.Schema({
   shopSort: String,
   shopOwnerEmail: String,
   shopImgs: [String],
-  shopState: {
+  shopState: {//商品的状态，上架或者下架
     type: Number,
-    min: 1,
-    max: 2,
-    default: 1, //商品的状态，上架或者下架
+    min: 1,//上架
+    max: 2,//下架
+    default: 1, 
   },
   createTime: {
     type: Date,
