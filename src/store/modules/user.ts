@@ -29,6 +29,9 @@ export const userSlice = createSlice({
     updateAll: (state, action: PayloadAction<User>) => {
       Object.assign(state, action.payload)
     },
+    deleteUser: (state, action) => {
+      return initialState;
+    },
     addSubScribe: (state, action: PayloadAction<string>) => {
       state.userSubscribe.push(action.payload)
     },
@@ -39,5 +42,5 @@ export const userSlice = createSlice({
   }
 })
 
-export const { updateAll, addSubScribe, deleteSubScribe } = userSlice.actions;
+export const { updateAll, deleteUser,addSubScribe, deleteSubScribe } = userSlice.actions;
 export default userSlice.reducer;

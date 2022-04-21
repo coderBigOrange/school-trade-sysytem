@@ -33,12 +33,12 @@ const Publish: React.FC = () => {
   
   const onFinish = async (values) => {
     //首先将图片上传值七牛云，获得图片的url，之后再将所有数据上传至数据库
-    console.log(values)
     setIsLoading(true)
 		const imgs: File[] = values.shopImgs.map(item => item.extra);
     const promises = imgs.map(img => uploadImgToQiNiu(img))
     const res = await Promise.all(promises);
     const imgUrls = res.map(item => 'http://'+item)
+    console.log(imgUrls)
     const data = {
       ...values,
       shopPrice: parseFloat(values.shopPrice),

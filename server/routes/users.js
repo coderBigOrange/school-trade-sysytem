@@ -355,4 +355,52 @@ router.post('/unSubscribe', async (req, res, next) => {
   })
 })
 
+//修改用户信息
+router.post('/alterUser', async(req,res, next) => {
+  const {
+    userName,
+    userGender,
+    userAvatar,
+    userStudentInfo,
+    userIntroduce,
+    userBirth,
+    userAddress,
+    userEmail
+  } = req.body;
+  if(!userEmail) {
+    console.log(req.body)
+    res.send({
+      code: 500,
+      message: '参数错误'
+    });
+    return;
+  }
+  const user = await User.findOne(
+    {userEmail: userEmail}
+  )
+  const newName = userName ? userName : user.userName;
+  const newGender = userGender ? userGender : user.userGender;
+  const newAvatar = userAvatar ? userAvatar : user.userAvatar;
+  const newStudentInfo = userStudentInfo ? userStudentInfo : user.userStudentInfo;
+  const newIntroduce = userIntroduce ? userIntroduce : user.userIntroduce;
+  const newBirth = userBirth ? userBirth : user.userBirth;
+  const newAddress = userAddress ? userAddress : user.userAddress;
+  await User.updateOne(
+    {userEmail: userEmail},
+    {
+      userName: newName,
+      userGender: newGender,
+      userAvatar: newAvatar,
+      userStudentInfo: newStudentInfo,
+      userIntroduce: newIntroduce,
+      userBirth: newBirth,
+      userAddress: newAddress,
+    }
+  )
+  res.send({
+    code: 200,
+    message: '修改成功'
+  })
+})
+
 module.exports = router;

@@ -21,11 +21,6 @@ export const UserLogin = async (data: {
     data,
   })
 }
-
-export const UserLogout = () => {
-
-}
-
 export const UserRegister = (data: {
   userEmail: string;
   password: string;
@@ -252,5 +247,23 @@ export const GetSearch = (data: {
     url: '/shops/search',
     method: 'get',
     params: data
+  })
+}
+
+//修改用户个人信息
+export const AlterUserInfo = (data: {
+  userName: string;
+  userGender: number;
+  userAvatar: string;
+  userStudentInfo: string;
+  userIntroduce: string;
+  userBirth: Date;
+  userAddress: string;
+  userEmail: string
+}) => {
+  return request({
+    url: '/users/alterUser',
+    method: 'post',
+    data
   })
 }

@@ -13,6 +13,7 @@ import MessageDetail from "../pages/MessageDetail";
 import ShopDetail from "../pages/ShopDetail";
 import SearchDetail from "../pages/SearchDetail";
 import UserDetail from "../pages/UserDetail";
+import UserAlter from "../pages/UserAlter";
 
 export type RouteConfig = {
   path: string; 
@@ -57,6 +58,11 @@ export const routerConfig:RouteConfig[] = [
 	{
 		path: '/me',
 		element: <Me />,
+		auth: true,
+	},
+	{
+		path: '/alter',
+		element: <UserAlter />,
 		auth: true,
 	},
 	{

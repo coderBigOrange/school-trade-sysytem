@@ -1,20 +1,21 @@
-//TODO: 末尾加上一个我的货架，可以使用Swiper
 import React, { useEffect } from "react";
 import TabButton from "../../components/TabButton";
 import VerticalFlexBox from "../../components/VerticalFlexBox";
 import s from './style.module.less';
-import { Avatar, Button, List, Toast } from "antd-mobile";
-import { SetOutline } from 'antd-mobile-icons'
+import { Avatar, List, Toast, Dialog } from "antd-mobile";
 import IconWrap from "../../components/IconWrap";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { GetUserInfo } from "../../api/effect";
-import { updateAll } from "../../store/modules/user";
+import { updateAll, deleteUser } from "../../store/modules/user";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../utils";
 
 const { Item } = List;
 
-const User: React.FC = () =>{
+const Me: React.FC = () =>{
 	const user = useAppSelector(state => state.user)
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	useEffect(() => {
 		if(user.userEmail && dispatch) {
 			(async () => {
@@ -34,16 +35,23 @@ const User: React.FC = () =>{
 			})();
 		}
 	}, [user.userEmail, dispatch])
-	const userLogout = () => {
-		console.log('用户注销')
+	const userLogout = async () => {
+		const res = await Dialog.confirm({
+			content: '是否要注销登录?'
+		})
+		if(res === true) {
+			localStorage.setItem('token', '');
+			dispatch(deleteUser({}))
+			navigate('/login')
+		}
 	}
 	return (
 		<div className={s.user}>
 			<div className={s.baseInfo}>
-				<div className={s.userInfo}>
+				<div className={s.topInfo}>
 					<Avatar 
 						style={{'--size': '70px', '--border-radius': '50%'}}
-						fit='contain'
+						fit='cover'
 						src={user.userAvatar}
 					/>
 					<div className={s.description}>
@@ -51,7 +59,34 @@ const User: React.FC = () =>{
 						<div className={s.otherInfo}>{user.userStudentInfo}</div>
 					</div>
 				</div>
-				<div className={s.operation}>
+				<div className={s.middleInfo}>
+          {
+						user.userGender && (
+							<div className={s.gender}>
+                <span>性别：</span>
+                {user.userGender === 1 ? '男' : '女'}
+              </div>
+            )
+          }
+          {
+						user.userBirth && (
+							<div className={s.birth}>
+                <span>生日： </span>
+                {formatDate(user.userBirth)}
+              </div>
+            )
+          }
+          {
+						user.userAddress && (
+							<div className={s.address}>
+                <span>家乡: </span>
+                {user.userAddress}
+              </div>
+            )
+          }
+					<div className={s.introduce}>{user.userIntroduce}</div>
+				</div>
+				<div className={s.footerInfo}>
 					<VerticalFlexBox onClick={() => console.log('我收藏的')}>
 						<div className={s.count}>{user.userCollectList.length}</div>
 						<div className={s.name}>我收藏的</div>
@@ -65,9 +100,6 @@ const User: React.FC = () =>{
 						<div className={s.name}>我评论的</div>
 					</VerticalFlexBox>
 				</div>
-				{/* <div className={s.settingIcon}>
-					<SetOutline />
-				</div> */}
 			</div> 
 			<div className={s.history}>
 				<div className={s.title}>基本信息</div>
@@ -105,7 +137,7 @@ const User: React.FC = () =>{
 				<List header={<div className={s.title}>其他操作</div>}>
 					<Item 
 						prefix={<IconWrap iconName="diadema"/>}
-						onClick={() => {console.log('你好')}}>
+						onClick={() => {navigate('/alter')}}>
 							修改个人信息
 					</Item>
 					<Item 
@@ -120,4 +152,4 @@ const User: React.FC = () =>{
 	)
 }
 
-export default User;
+export default Me;
