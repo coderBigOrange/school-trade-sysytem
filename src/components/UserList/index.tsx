@@ -1,3 +1,4 @@
+//展示简单的用户信息列表
 import React from "react";
 import { User } from "../../utils/interface";
 import s from './style.moduel.less' ;

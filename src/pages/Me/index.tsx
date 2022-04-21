@@ -87,15 +87,15 @@ const Me: React.FC = () =>{
 					<div className={s.introduce}>{user.userIntroduce}</div>
 				</div>
 				<div className={s.footerInfo}>
-					<VerticalFlexBox onClick={() => console.log('我收藏的')}>
+					<VerticalFlexBox onClick={() => navigate('/myCollect')}>
 						<div className={s.count}>{user.userCollectList.length}</div>
 						<div className={s.name}>我收藏的</div>
 					</VerticalFlexBox>
-					<VerticalFlexBox onClick={() => console.log('我喜欢的')}>
+					<VerticalFlexBox onClick={() => navigate('/myLike')}>
 						<div className={s.count}>{user.userLikeList.length}</div>
 						<div className={s.name}>我喜欢的</div>
 					</VerticalFlexBox>
-					<VerticalFlexBox onClick={() => console.log('我评论的')}>
+					<VerticalFlexBox onClick={() => navigate('/myComment')}>
 						<div className={s.count}>{user.userCommentList.length}</div>
 						<div className={s.name}>我评论的</div>
 					</VerticalFlexBox>
@@ -104,7 +104,7 @@ const Me: React.FC = () =>{
 			<div className={s.history}>
 				<div className={s.title}>基本信息</div>
 				<div className={s.saleHistory}>
-					<VerticalFlexBox onClick={() => console.log('我发布的')}>
+					<VerticalFlexBox onClick={() => navigate('/myShops')}>
 						<div className={s.icon}>
 							<IconWrap iconName="icon-biaoqian"/>
 						</div>
@@ -113,7 +113,7 @@ const Me: React.FC = () =>{
 							<span>{user.userPublishList.length}</span>
 						</div>
 					</VerticalFlexBox>
-					<VerticalFlexBox onClick={() => console.log('我的关注')}>
+					<VerticalFlexBox onClick={() => navigate('/mySubscribe')}>
 						<div className={s.icon}>
 							<IconWrap iconName="icon-shoucang"/>
 						</div>
@@ -122,7 +122,7 @@ const Me: React.FC = () =>{
 							<span>{user.userSubscribe.length}</span>
 						</div>
 					</VerticalFlexBox>
-					<VerticalFlexBox onClick={() => console.log('我的粉丝')}>
+					<VerticalFlexBox onClick={() => navigate('/myFans')}>
 						<div className={s.icon}>
 							<IconWrap iconName="icon-dianzan"/>
 						</div>

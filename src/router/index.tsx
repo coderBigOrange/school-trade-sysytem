@@ -14,6 +14,12 @@ import ShopDetail from "../pages/ShopDetail";
 import SearchDetail from "../pages/SearchDetail";
 import UserDetail from "../pages/UserDetail";
 import UserAlter from "../pages/UserAlter";
+import MySubscribe from "../pages/MySubscribe";
+import MyFans from "../pages/MyFans";
+import MyCollect from "../pages/MyCollect";
+import MyLike from "../pages/MyLike";
+import MyComment from '../pages/MyComment';
+import Myshops from "../pages/MyShops";
 
 export type RouteConfig = {
   path: string; 
@@ -64,6 +70,36 @@ export const routerConfig:RouteConfig[] = [
 		path: '/alter',
 		element: <UserAlter />,
 		auth: true,
+	},
+	{
+		path: '/mySubscribe',
+		element: <MySubscribe />,
+		auth: true
+	},
+	{
+		path: '/myFans',
+		element: <MyFans />,
+		auth: true
+	},
+	{
+		path: '/myCollect',
+		element: <MyCollect />,
+		auth: true
+	},
+	{
+		path: '/myLike',
+		element: <MyLike />,
+		auth: true
+	},
+	{
+		path: '/myComment',
+		element: <MyComment />,
+		auth: true
+	},
+	{
+		path: '/myShops',
+		element: <Myshops />,
+		auth: true
 	},
 	{
 		path: '/userDetail/:email',

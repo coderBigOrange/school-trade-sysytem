@@ -91,15 +91,6 @@ const Message: React.FC = () =>{
 						onClick={() => console.log('关注')} 
 						Icon={<StarFill />}
 					/>
-					<IconOperation
-						text="通知"
-						style={{
-							color: 'rgb(255 255 255 / 79%)',
-							backgroundColor: 'rgb(109 161 200)'
-						}}
-						onClick={() => console.log('通知')}
-						Icon={<InformationCircleFill />}
-					/>
 				</div>
 			</div>
 			<div className={s.body}>

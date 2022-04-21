@@ -99,6 +99,15 @@ export type Shop = {
   userStudentInfo: string;
 }
 
+export enum UserOperateType  {
+  USER_PUBLISH  = 'userPublish',
+  USER_LIKE = 'userLike',
+  USER_COLLECT = 'userCollect',
+  USER_COMMENT = 'userComment',
+  USER_SUBSCRIBE = 'userSubscribe',
+  USER_BE_SUBSCRIBE = 'userBeSubscribe'
+}
+
 export enum SearchType {
   USER = 'user',
   SHOP = 'shop'

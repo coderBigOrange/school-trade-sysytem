@@ -141,11 +141,17 @@ const updateMessageList = async (self,other, content) => {
   )
 }
 
+//
+const getShopInfo = (shopId)  => {
+  
+}
+
 
 module.exports = {
   getShopUserInfo,
   promisesWrap,
   getQiNiuToken,
   getMessageInfo,
-  updateMessageList
+  updateMessageList,
+  getShopInfo
 }

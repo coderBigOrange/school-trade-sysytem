@@ -11,7 +11,6 @@ import {
 } from 'antd-mobile';
 import ShopList from "../../components/ShopList";
 import UserList from "../../components/UserList";
-import ConponentWrap from '../../components/ComponentWrap'
 import ComponentWrap from "../../components/ComponentWrap";
 
 type ResultProps = {

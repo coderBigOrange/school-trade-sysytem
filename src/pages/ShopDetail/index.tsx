@@ -141,7 +141,7 @@ const ShopDetail: React.FC = () => {
   return (
     <div className={s.shopDetail}>
       <div className={s.header}>
-        <NavBar onBack={() => navigate('/home')}>商品详情</NavBar>
+        <NavBar onBack={() => navigate(-1)}>商品详情</NavBar>
         <div className={s.userInfo}>
           <div className={s.avatar}>
             <Avatar 

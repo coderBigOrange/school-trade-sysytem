@@ -4,8 +4,8 @@
 import React, { useEffect, useState } from "react";
 import s from './style.module.less';
 import { useParams } from "react-router-dom";
-import { GetUserInfo, GetUserPublished, UserSubscribe, UserUnSubscribe } from "../../api/effect";
-import { Shop, User } from "../../utils/interface";
+import { GetUserInfo, GetUserOperatedShopList, UserSubscribe, UserUnSubscribe } from "../../api/effect";
+import { Shop, User, UserOperateType } from "../../utils/interface";
 import { 
   Toast,
   Avatar,
@@ -42,10 +42,13 @@ const UserDetail: React.FC = () => {
 
   useEffect(() => {
     if(email) {
+      if(email === user.userEmail) {
+        navigate('/me')
+      }
       (async () => {
         const [userInfo, userPublish] = await Promise.all([
           GetUserInfo({email}),
-          GetUserPublished({email})
+          GetUserOperatedShopList({email, type: UserOperateType.USER_PUBLISH})
         ]);
         if(userInfo.code === 200 && userPublish.code === 200) {
           setUserInfo(userInfo.data);
@@ -177,7 +180,7 @@ const UserDetail: React.FC = () => {
       </div>
       <Divider >发布的商品</Divider>
       <div className={s.publishList}>
-          <ShopList shopList={userPublish} />
+        <ShopList shopList={userPublish} />
       </div>
     </div>
   )

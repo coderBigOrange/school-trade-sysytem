@@ -42,11 +42,22 @@ export const GetUserInfo = (data: {
   })
 }
 
-export  const GetUserPublished = (data: {
-  email: string
+export  const GetUserOperatedShopList = (data: {
+  email: string,
+  type: string
 }) => {
   return request<Shop[]>({
-    url: '/users/userPublishList',
+    url: '/users/getOperatedShopsList',
+    method: 'get',
+    params: data
+  })
+}
+export  const GetOperatedUserList = (data: {
+  email: string,
+  type: string
+}) => {
+  return request<User[]>({
+    url: '/users/getOperatedUserList',
     method: 'get',
     params: data
   })

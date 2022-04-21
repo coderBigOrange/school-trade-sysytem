@@ -23,22 +23,6 @@ router.get('/info', async (req, res, next) => {
   })
 })
 
-//获取与用户相关的所有的消息（发出和收到的）
-router.get('/allMessages', async (req, res, next) => {
-  const { userEmail } = req.query;
-  //拿到与用户相关的信息id
-  const user = await User.findOne({
-    userEmail: userEmail
-  })
-  const messageIds = user.userMessageList;
-  const data = await promisesWrap(messageIds, getMessageInfo)
-  res.send({
-    code: 200,
-    message: '获取成功',
-    data
-  })
-})
-
 //获取用户的消息列表，列表页展示用
 router.get('/messageList', async (req, res, next) => {
   const { userEmail } = req.query;
@@ -105,9 +89,9 @@ router.post('/unPublish', async (req,res,next) => {
   })
 })
 
-// 获取用户发布的商品
-router.get('/userPublishList', async (req, res, next) => {
-  const { email } = req.query
+//获取用户发布，点赞，评论，收藏的商品
+router.get('/getOperatedShopsList', async (req, res, next) => {
+  const { email, type } = req.query
   if(!email) {
     console.log(email)
     res.send({
@@ -123,11 +107,23 @@ router.get('/userPublishList', async (req, res, next) => {
     userAvatar,
     userName,
     userStudentInfo,
-    userPublishList
+    userPublishList,
+    userCollectList,
+    userCommentList,
+    userLikeList
   } = user;
-  const publishListId = userPublishList.map(item => Types.ObjectId(item));
+  let utralIdList;
+  if(type === 'userPublish') {
+    utralIdList = userPublishList.map(item => Types.ObjectId(item));
+  } else if(type === 'userCollect') {
+    utralIdList = userCollectList.map(item => Types.ObjectId(item));
+  } else if(type === 'userComment') {
+    utralIdList = userCommentList.map(item => Types.ObjectId(item));
+  } else {
+    utralIdList = userLikeList.map(item => Types.ObjectId(item));
+  }
   const shopList = await Shop.find(
-    {_id: {$in: publishListId}}
+    {_id: {$in: utralIdList}}
   )
   const data = shopList.map(item => {
     const { 
@@ -140,6 +136,7 @@ router.get('/userPublishList', async (req, res, next) => {
       shopLike,
       ShopComment,
       shopCollect,
+      shopState,
       _id,
       createTime
     } = item;
@@ -149,6 +146,7 @@ router.get('/userPublishList', async (req, res, next) => {
       shopDescription,
       shopPrice,
       shopSort,
+      shopState,
       shopImgs,
       shopLike,
       ShopComment,
@@ -162,10 +160,45 @@ router.get('/userPublishList', async (req, res, next) => {
   })
   res.send({
     code: 200,
-    message: '获取用户发布的商品列表成功',
+    message: '获取用户操作的商品列表成功',
     data
   })
 })
+
+//获取用户关注的用户以及粉丝
+router.get('/getOperatedUserList', async (req, res, next) => {
+  const { email, type } = req.query
+  if(!email) {
+    console.log(email)
+    res.send({
+      code: 500,
+      message: '参数错误',
+    })
+    return
+  }
+  const user = await User.findOne({
+    userEmail: email
+  })
+  const {
+    userBeSubscribed,
+    userSubscribe
+  } = user;
+  let ultralIdList = 
+    type === 'userSubscribe' 
+    ? userSubscribe
+    : userBeSubscribed;
+  const users = await User.find(
+    {userEmail: {$in: ultralIdList}}
+  )
+  res.send(
+    {
+      code: 200,
+      message: '获取用户操作的的用户成功',
+      data: users
+    }
+  )
+})
+
 
 router.post('/like', async(req,res, next) => {
   const { email, name, shopId } = req.body;
