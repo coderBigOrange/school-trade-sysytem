@@ -3,13 +3,13 @@ import s from './style.moduel.less';
 
 type VerticalProps = {
   children: ReactNode,
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const VerticalFlexBox: React.FC<VerticalProps> = (props) => {
   const {
     children,
-    onClick
+    onClick = () => {}
   } = props;
   return (
     <div 

@@ -2,6 +2,7 @@ const { User } = require("../model/User");
 const { Message } = require("../model/Message")
 const qiniu = require('qiniu')
 //TODO: 提个问题，实现数组遍历promise，串行执行
+
 const getShopUserInfo = async (shop) => {
   const { 
     shopOwnerEmail,
@@ -25,6 +26,24 @@ const getShopUserInfo = async (shop) => {
       userName,
       userStudentInfo
     } = res;
+    const likeUserInfo = promisesWrap(shopLike, getLiketUserInfo)
+    const commentUserInfo = promisesWrap(ShopComment, getCommentUserInfo)
+    return Promise.all([
+      likeUserInfo,
+      commentUserInfo,
+      userAvatar,
+      userName,
+      userStudentInfo
+    ])
+
+  }).then(res => {
+    const [
+      likeUserInfo, 
+      commentUserInfo,
+      userAvatar,
+      userName,
+      userStudentInfo
+    ] = res;
     return({
       shopOwnerEmail,
       shopTitle,
@@ -32,8 +51,8 @@ const getShopUserInfo = async (shop) => {
       shopPrice,
       shopSort,
       shopImgs,
-      shopLike,
-      ShopComment,
+      shopLike: likeUserInfo,
+      ShopComment: commentUserInfo,
       shopCollect,
       userAvatar,
       userName,
@@ -42,8 +61,55 @@ const getShopUserInfo = async (shop) => {
       createTime,
       shopState
     })
+  }) 
+}
+
+//拿到评论的用户信息
+const getCommentUserInfo = (comment) => {
+  const {
+    content,
+    email,
+    createTime
+  } = comment;
+  return User.findOne({
+    userEmail: email
+  }).exec().then(res => {
+    const {
+      userAvatar,
+      userName,
+    } = res;
+    return {
+      content,
+      email,
+      createTime,
+      avatar: userAvatar,
+      name: userName
+    }
   })
 }
+
+//拿到点赞者的用户信息
+const getLiketUserInfo = (data) => {
+  const {
+    email,
+    createTime
+  } = data;
+  return User.findOne({
+    userEmail: email
+  }).exec().then(res => {
+    const {
+      userAvatar,
+      userName,
+    } = res;
+    return {
+      email,
+      createTime,
+      avatar: userAvatar,
+      name: userName
+    }
+  })
+}
+
 //拿到message对应的信息
 const getMessageInfo = async (messageId) => {
   return Message.findOne({
@@ -141,10 +207,6 @@ const updateMessageList = async (self,other, content) => {
   )
 }
 
-//
-const getShopInfo = (shopId)  => {
-  
-}
 
 
 module.exports = {
@@ -153,5 +215,6 @@ module.exports = {
   getQiNiuToken,
   getMessageInfo,
   updateMessageList,
-  getShopInfo
+  getLiketUserInfo,
+  getCommentUserInfo
 }

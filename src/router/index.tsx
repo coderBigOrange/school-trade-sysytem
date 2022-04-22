@@ -20,6 +20,10 @@ import MyCollect from "../pages/MyCollect";
 import MyLike from "../pages/MyLike";
 import MyComment from '../pages/MyComment';
 import Myshops from "../pages/MyShops";
+import RecieveLike from "../pages/RecieveLike";
+import ReceiveComment from "../pages/RecieveComment";
+import ReceiveSubscribe from "../pages/RecieveSubscribe";
+import ReceivePublish from "../pages/RecievePublish";
 
 export type RouteConfig = {
   path: string; 
@@ -100,6 +104,26 @@ export const routerConfig:RouteConfig[] = [
 		path: '/myShops',
 		element: <Myshops />,
 		auth: true
+	},
+	{
+		path: '/recieveLike',
+		element: <RecieveLike />,
+		auth: true,
+	},
+	{
+		path: '/recieveComment',
+		element: <ReceiveComment />,
+		auth: true,
+	},
+	{
+		path: '/recieveSubscribe',
+		element: <ReceiveSubscribe />,
+		auth: true,
+	},
+	{
+		path: '/recievePublish',
+		element: <ReceivePublish />,
+		auth: true,
 	},
 	{
 		path: '/userDetail/:email',

@@ -36,7 +36,7 @@ const ShopSchema = new mongoose.Schema({
   ],
   shopLike: [
     {
-      email: String, //点赞者的头像等信息
+      email: String, //点赞者信息
       name: String,
 			createTime: {
 				type: Date,
@@ -46,7 +46,7 @@ const ShopSchema = new mongoose.Schema({
   ],
   shopCollect: [
     {
-      email: String, //收藏者的头像等信息
+      email: String, //收藏者信息
       name: String,
 			createTime: {
 				type: Date,

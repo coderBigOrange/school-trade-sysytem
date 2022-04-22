@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../model/User')
 const { Shop } = require('../model/Shop')
-const { promisesWrap, getMessageInfo} = require('../utils/index');
 const { Types } = require('../db/mongodb');
+const { getShopUserInfo, promisesWrap } = require('../utils');
+
 // 获取用户信息
 router.get('/info', async (req, res, next) => {
   const { email } = req.query;
@@ -104,9 +105,6 @@ router.get('/getOperatedShopsList', async (req, res, next) => {
     userEmail: email
   })
   const {
-    userAvatar,
-    userName,
-    userStudentInfo,
     userPublishList,
     userCollectList,
     userCommentList,
@@ -125,39 +123,7 @@ router.get('/getOperatedShopsList', async (req, res, next) => {
   const shopList = await Shop.find(
     {_id: {$in: utralIdList}}
   )
-  const data = shopList.map(item => {
-    const { 
-      shopOwnerEmail,
-      shopTitle,
-      shopDescription,
-      shopPrice,
-      shopSort,
-      shopImgs,
-      shopLike,
-      ShopComment,
-      shopCollect,
-      shopState,
-      _id,
-      createTime
-    } = item;
-    return {
-      shopOwnerEmail,
-      shopTitle,
-      shopDescription,
-      shopPrice,
-      shopSort,
-      shopState,
-      shopImgs,
-      shopLike,
-      ShopComment,
-      shopCollect,
-      shopId: _id,
-      createTime,
-      userAvatar,
-      userName,
-      userStudentInfo
-    }
-  })
+  const data = await promisesWrap(shopList, getShopUserInfo);
   res.send({
     code: 200,
     message: '获取用户操作的商品列表成功',
@@ -433,6 +399,28 @@ router.post('/alterUser', async(req,res, next) => {
   res.send({
     code: 200,
     message: '修改成功'
+  })
+})
+
+//用户收到的点赞，收藏，评论，以及关注用户发布新商品等信息
+router.get('/myShops', async(req, res, next)=>{
+  const { email } = req.query;
+  if(!email) {
+    console.log(req.query)
+    res.send({
+      code: 500,
+      message: '参数错误',
+    })
+    return;
+  }
+  const tempData = await Shop.find({
+    shopOwnerEmail: email
+  })
+  const data = await promisesWrap(tempData, getShopUserInfo);
+  res.send({ 
+    code: 200,
+    message: '获取成功',
+    data
   })
 })
 

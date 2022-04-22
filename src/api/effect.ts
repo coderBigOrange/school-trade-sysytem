@@ -278,3 +278,15 @@ export const AlterUserInfo = (data: {
     data
   })
 }
+
+export const GetUserPublishedShopInfos = (
+  params: {
+    email: string;
+  }
+) => {
+  return request<Shop[]>({
+    url: '/users/myShops',
+    method: 'get',
+    params
+  })
+}

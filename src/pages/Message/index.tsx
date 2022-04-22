@@ -13,18 +13,17 @@ import {
 import IconOperation from "../../components/IconOperation";
 import MessageList from "../../components/MessageList";
 import { GetMessageList } from "../../api/effect";
-import { useAppSelector, useAppDispatch } from "../../hooks";
+import { useAppSelector } from "../../hooks";
 import { MessageType } from "../../utils/interface";
 import ComponentWrap from "../../components/ComponentWrap";
 import { ComponentState } from "../../utils/interface";
-import { updateAll } from "../../store/modules/user";
+import { useNavigate } from "react-router-dom";
 
 const Message: React.FC = () =>{
 	const userEmail = useAppSelector(state => state.user.userEmail)
 	const [messageList, setMessaeList] = useState<MessageType[]>([])
-	const dispatch = useAppDispatch();
   const [state, setState] = useState<ComponentState>(ComponentState.LODING)
-
+	const navigate = useNavigate();
 	useEffect(() => {
 		(async () => {
 			setState(ComponentState.LODING)
@@ -44,11 +43,6 @@ const Message: React.FC = () =>{
 			} else if(code === 401){
 				Toast.show('身份认证过期，请重新登录')
 				setState(ComponentState.ERROR)
-				// dispatch(updateAll({
-				// 	name: '',
-				// 	avatar: '',
-				// 	email: '',
-				// }))
 			} else {
 				Toast.show(message)
 				setState(ComponentState.ERROR)
@@ -61,35 +55,44 @@ const Message: React.FC = () =>{
 				<NavBar
 					back={null}
 				>
-					<span className={s.title}>消息</span>
+					<span className={s.title}>我的消息</span>
 				</NavBar>
 				<div className={s.operation}>
 					<IconOperation 
-						text="点赞" 
+						text="收到点赞" 
 						style={{
 							color: '#ff19197d',
 							backgroundColor: '#ffc6c6'
 						}}
-						onClick={() => console.log('点赞')} 
+						onClick={() => navigate('/recieveLike')} 
 						Icon={<HeartFill />}
 					/>
 					<IconOperation 
-						text="评论" 
+						text="收到评论" 
 						style={{
 							color: 'rgb(231 223 236)',
 							backgroundColor: 'rgb(115 84 232 / 89%)'
 						}}
-						onClick={() => console.log('评论')} 
+						onClick={() => navigate('/recieveComment')} 
 						Icon={<MailFill />}
 					/>
 					<IconOperation 
-						text="关注" 
+						text="收到关注" 
 						style={{
 							color: '#fdff81',
 							backgroundColor: 'rgb(66 202 185 / 63%)'
 						}}
-						onClick={() => console.log('关注')} 
+						onClick={() => navigate('/recieveSubscribe')} 
 						Icon={<StarFill />}
+					/>
+					<IconOperation
+						text="新发布"
+						style={{
+							color: 'rgb(255 255 255 / 79%)',
+							backgroundColor: 'rgb(109 161 200)'
+						}}
+						onClick={() => navigate('/recievePublish')}
+						Icon={<InformationCircleFill />}
 					/>
 				</div>
 			</div>

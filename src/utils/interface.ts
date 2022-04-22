@@ -74,6 +74,8 @@ export type Like = {
   email: string;
   name: string;
   createTime: string;
+  avatar: string;
+
 }
 export type Collect = {
   email: string;
