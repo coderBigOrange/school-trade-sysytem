@@ -1,10 +1,11 @@
 import React, {useState } from 'react';
-import {Form, Button, Input, Space } from 'antd-mobile'
+import {Form, Button, Input, Space, Toast } from 'antd-mobile'
 import s from './style.module.less';
 import { useNavigate } from 'react-router-dom';
 import { validComfirm, validEmail, validPass } from "../../utils";
 import { CheckState } from "../../utils/interface";
 import { UserRegister } from "../../api/effect";
+import { Link } from 'react-router-dom';
 const { Item } = Form;
 
 const Register: React.FC = () => {
@@ -20,6 +21,7 @@ const Register: React.FC = () => {
 		if(isValidEmail === CheckState.OK && isValidPass === CheckState.OK && isValidComfirm === CheckState.OK) {
 			const res = await	UserRegister(data);
       console.log(res)
+      Toast.show(res.message)
       navigator('/login')
 		}	else {
 			if(isValidEmail === CheckState.EMPTY) {
@@ -76,6 +78,9 @@ const Register: React.FC = () => {
 						<p className={s.tips}>{confirmTips}</p>
         </Form>
       </div>
+      <div className={s.footer}>
+				<Link className={s.back} to="/login" >返回登录</Link>
+			</div>
     </div>
   )
 }

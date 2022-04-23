@@ -1,11 +1,45 @@
 const { User } = require('../model/User')
 const { Shop } = require('../model/Shop');
-const { Message } = require('../model/Message')
+const { Message } = require('../model/Message');
+const { default: mongoose } = require('mongoose');
 
 console.log('执行')
+/**
+ * 删除Message model
+ */
+// Message.remove({}, function(err) {
+//   if(err) {
+//     console.log(err);
+//   }
+//   console.log('删除所有消息成功')
+// })
 
 /**
- * 消息相关
+ * 删除 Shop model
+ */
+// Shop.remove({}, function(err) {
+//   if(err) {
+//     console.log(err);
+//   }
+//   console.log('删除所有商品成功')
+// })
+
+/**
+ * 删除 User Model
+ */
+// User.remove({}, function(err) {
+//   if(err) {
+//     console.log(err);
+//   }
+//   console.log('删除所有商品成功')
+// })
+
+
+
+/**
+ * 清空消息
+ * 首先删除Message下的所有消息
+ * 之后清楚所有用户存储的消息
  */
 // Message.deleteMany({}, function(err, res) {
 //   if(err) {
@@ -26,14 +60,16 @@ console.log('执行')
 // })
 
 /**
- * 商品相关
- * 应该连带删除用户评价，点赞和收藏
+ * 删除商品
+ * 首先删除Shop下的所有商品
+ * 之后删除用户发布的商品
+ * 之后删除用户发出和收到的点赞，收藏，评论
  */
 // Shop.deleteMany({},function (err, res) {
 //   if(err) {
 //     console.log(err)
 //   } else {
-//     console.log('清楚商品',res)
+//     console.log('清除商品',res)
 //   }
 // })
 // User.updateMany({}, {
@@ -45,6 +81,7 @@ console.log('执行')
 //     console.log('清楚所有用户发布的商品',res)
 //   }
 // })
+
 
 /**
  * 用户相关

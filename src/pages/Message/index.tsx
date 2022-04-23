@@ -86,7 +86,7 @@ const Message: React.FC = () =>{
 						Icon={<StarFill />}
 					/>
 					<IconOperation
-						text="新发布"
+						text="订阅通知"
 						style={{
 							color: 'rgb(255 255 255 / 79%)',
 							backgroundColor: 'rgb(109 161 200)'

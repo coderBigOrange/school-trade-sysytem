@@ -76,6 +76,29 @@ router.post('/publish', async(req, res, next) => {
     data: shop
   })
 })
+//获取用户关注用户发布的商品
+router.get('/subscribeShops', async(req, res, next) => {
+  const {email} = req.query;
+  if(!email) {
+    res.send({
+      code: 500,
+      message: '参数错误',
+    })
+    return;
+  }
+  const user = await User.findOne({
+    userEmail: email
+  })
+  const shopList  = await Shop.find(
+    {shopOwnerEmail: {$in: user.userSubscribe}}
+  )
+  const data = await promisesWrap(shopList, getShopUserInfo);
+  res.send({ 
+    code: 200,
+    message: '获取订阅用户发布的商品成功',
+    data
+  })
+})
 
 //用户改变商品上/下架状态
 router.post('/unPublish', async (req,res,next) => {

@@ -290,3 +290,13 @@ export const GetUserPublishedShopInfos = (
     params
   })
 }
+
+export const GetUserSubscribeShops = (params: {
+  email: string
+}) => {
+  return request<Shop[]>({
+    url: '/users/subscribeShops',
+    method: 'get',
+    params
+  })
+}

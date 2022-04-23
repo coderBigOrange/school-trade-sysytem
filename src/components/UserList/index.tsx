@@ -5,12 +5,13 @@ import s from './style.moduel.less' ;
 import { Avatar } from "antd-mobile";
 import { useNavigate } from "react-router-dom";
 
-const UserCard: React.FC<User> = (props) => {
+const UserCard: React.FC<User&{isShowTip?: boolean}> = (props) => {
   const {
     userEmail,
     userAvatar,
     userName,
-    userStudentInfo
+    userStudentInfo,
+    isShowTip
   } = props;
   const navigate = useNavigate();
   const onClickUser = () => {
@@ -26,21 +27,31 @@ const UserCard: React.FC<User> = (props) => {
         />
       </div>
       <div className={s.baseInfo}>
-        <div className={s.userName}>{userName}</div>
+        <div className={s.userName}>
+          {userName}
+          {
+            isShowTip && (
+              <span className={s.tip}>关注了你</span>
+            )
+          }
+        </div>
         <div className={s.otherInfo}>{userStudentInfo}</div>
       </div>
     </div>
   )
 }
 
-const UserList: React.FC<{userList: User[]}> = (props) => {
-  const { userList = []} = props;
+const UserList: React.FC<{
+  userList: User[],
+  isShowTip?: boolean;
+}> = (props) => {
+  const { userList = [], isShowTip = false} = props;
   return (
     <div className={s.userList}>
       {
         userList.map(item => {
           return (
-            <UserCard {...item} key={item.userEmail} />
+            <UserCard {...item} key={item.userEmail} isShowTip={isShowTip} />
           )
         })
       }

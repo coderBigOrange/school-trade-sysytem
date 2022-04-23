@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
-	userMessageList: [Schema.Types.ObjectId], //存储用户的所有消息ID
+	userMessageList: [Schema.Types.ObjectId], //存储与用户相关的所有消息ID
 	userPublishList: [Schema.Types.ObjectId],//用户发布的商品的id
 	userBeSubscribed: [String],//关注用户的人的邮箱
 	userSubscribe: [String],//用户关注的人的邮箱

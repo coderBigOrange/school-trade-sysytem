@@ -55,6 +55,7 @@ router.get('/shopList', async(req, res, next)=>{
   })
 })
 
+
 //获取全部商品
 router.get('/allShops', async(req,res,next) => {
   const shopList = await Shop.find({});
