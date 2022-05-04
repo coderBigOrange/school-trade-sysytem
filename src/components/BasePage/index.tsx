@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import {
   GetUserOperatedShopList,
   GetOperatedUserList,
-  GetUserSubscribeShops
+  GetUserSubscribeShops,
+  GetUserPublishedShopInfos
 } from "../../api/effect";
 import { IResponseData } from "../../utils/interface";
 import { useAppSelector } from "../../hooks";
@@ -46,10 +47,10 @@ const BasePage: React.FC<BaseProps> = (props) => {
           if(isShowShop) {
             //点赞，评论和发布通知等通知
             let res: IResponseData<Shop[]>;
-            if(type === UserOperateType.USER_SUBSCRIBE) {
+            if(type === UserOperateType.USER_BE_SUBSCRIBE) {
               res = await GetUserSubscribeShops({email: userEmail});
             } else {
-              res = await GetUserSubscribeShops({email: userEmail})
+              res = await GetUserPublishedShopInfos({email: userEmail})
             }
             const {
               code,

@@ -168,7 +168,7 @@ const secretKey = 'SnE27ZqaSySKzD31M6fAuvg2DtgofYQNt_fhO_Ry'
 // 鉴权对象 mac
 const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
 const options = {
-  scope: 'orange-imgs',
+  scope: 'school-trade-imgs',
   expires: 7200
 }
 const putPolicy = new qiniu.rs.PutPolicy(options)

@@ -13,7 +13,7 @@ const  uploadImgToQiNiu = async (file: File) => {
     formData.append('file', file)
     const response = await axios.post('http://upload-z1.qiniu.com', formData);
     if(response.status === 200) {
-      const url = 'ra4a8ch7u.hb-bkt.clouddn.com/' + response.data.key;
+      const url = 'rbcv05x6c.hb-bkt.clouddn.com/' + response.data.key;
       return url;
     }
     console.log('上传图片到七牛云失败:', response.statusText)
