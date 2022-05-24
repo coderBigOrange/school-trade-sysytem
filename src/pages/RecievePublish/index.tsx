@@ -4,7 +4,7 @@ import { UserOperateType } from "../../utils/interface";
 
 const ReceivePublish: React.FC = () => {
   return (
-    <BasePage type={UserOperateType.USER_PUBLISH} isReceive={true}  isShowShop={true} title="我关注的"/>
+    <BasePage type={UserOperateType.USER_PUBLISH} isReceive={true}  isShowShop={true} title="关注用户新发布"/>
   )
 }
 

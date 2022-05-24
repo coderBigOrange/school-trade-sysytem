@@ -21,7 +21,7 @@ export const memorySlice  = createSlice({
   reducers: {
     addHistorySearch: (state, action: PayloadAction<string>) => {
       const value = action.payload;
-      if( value && !state.searchHistory.includes(value)) {
+      if( value && state.searchHistory && !state.searchHistory.includes(value)) {
         state.searchHistory.unshift(value)
       }
     },

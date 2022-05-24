@@ -12,6 +12,7 @@ const Register: React.FC = () => {
   const [emailTips, setEmailTips] = useState('');
 	const [passwordTips, setPasswordTips] = useState('');
   const [confirmTips, setComfirmTips] = useState('');
+	const [isLoading, setIsLoding] = useState(false);
   const navigator = useNavigate();
 	const onFinish = async (data) => {
 		const { userEmail, password, comfirm} = data;
@@ -19,10 +20,14 @@ const Register: React.FC = () => {
 		const isValidPass = validPass(password);
     const isValidComfirm = validComfirm(password, comfirm);
 		if(isValidEmail === CheckState.OK && isValidPass === CheckState.OK && isValidComfirm === CheckState.OK) {
+      setIsLoding(true)
 			const res = await	UserRegister(data);
+      setIsLoding(false)
       console.log(res)
       Toast.show(res.message)
-      navigator('/login')
+      if(res.code === 200) {
+        navigator('/login')
+      }
 		}	else {
 			if(isValidEmail === CheckState.EMPTY) {
 				setEmailTips('邮箱不能为空')
@@ -53,7 +58,7 @@ const Register: React.FC = () => {
           layout="horizontal"
           onFinish={onFinish}
           footer={
-            <Button block type='submit' color='primary' size='large'>
+            <Button block type='submit' color='primary' size='large' loading={isLoading}>
               注册
             </Button>
           }
