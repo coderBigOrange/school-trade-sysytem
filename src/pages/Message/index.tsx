@@ -49,7 +49,7 @@ const Message: React.FC = () =>{
 				setState(ComponentState.ERROR)
 			}
 		})();
-	}, [userEmail, change])
+	}, [userEmail])
 	return (
 		<div className={s.message}>
 			<div className={s.header}>

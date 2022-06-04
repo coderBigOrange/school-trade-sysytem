@@ -16,6 +16,7 @@ const Me: React.FC = () =>{
 	const user = useAppSelector(state => state.user)
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const socket = window['socket'];
 	useEffect(() => {
 		if(user.userEmail && dispatch) {
 			(async () => {
@@ -42,6 +43,8 @@ const Me: React.FC = () =>{
 		if(res === true) {
 			localStorage.setItem('token', '');
 			dispatch(deleteUser({}))
+			socket.close();
+			console.log('注销',socket)
 			navigate('/login')
 		}
 	}
