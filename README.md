@@ -15,3 +15,4 @@ cd进入到server地下，执行 yarn start或者npm run start
 ### 项目的流程图为.drawio文件，下载对应的vscode插件即可浏览
 
 ### 项目图片展示
+因为图片较多，所以项目图片展示在我的另一个项目，shcool-trade-imgs-zone当中
