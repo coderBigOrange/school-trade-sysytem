@@ -1,7 +1,6 @@
 const { User } = require('../model/User')
 const { Shop } = require('../model/Shop');
 const { Message } = require('../model/Message');
-const { default: mongoose } = require('mongoose');
 
 // console.log('执行')
 /**

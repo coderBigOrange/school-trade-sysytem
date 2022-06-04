@@ -91,6 +91,7 @@ const Home: React.FC = () => {
         message
       } = res;
       if(code === 200) {
+        console.log(data)
         setShopList(data)//TODO: 需要一个loading页去缓和未加载时大量的网络请求
         setState(ComponentState.OK)
         if(data.length < 1) {

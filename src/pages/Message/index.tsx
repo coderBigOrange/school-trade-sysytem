@@ -23,6 +23,7 @@ const Message: React.FC = () =>{
 	const userEmail = useAppSelector(state => state.user.userEmail)
 	const [messageList, setMessaeList] = useState<MessageType[]>([])
   const [state, setState] = useState<ComponentState>(ComponentState.LODING)
+	const [change, setChange] = useState<boolean>(false);
 	const navigate = useNavigate();
 	useEffect(() => {
 		(async () => {
@@ -48,7 +49,7 @@ const Message: React.FC = () =>{
 				setState(ComponentState.ERROR)
 			}
 		})();
-	}, [userEmail])
+	}, [userEmail, change])
 	return (
 		<div className={s.message}>
 			<div className={s.header}>
@@ -98,7 +99,7 @@ const Message: React.FC = () =>{
 			</div>
 			<div className={s.body}>
 				<ComponentWrap state={state}>
-					<MessageList data={messageList}/>
+					<MessageList data={messageList} refresh={setChange}/>
 				</ComponentWrap>
 			</div>
 			<TabButton />

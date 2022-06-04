@@ -16,7 +16,8 @@ const getShopUserInfo = async (shop) => {
     shopCollect,
     _id,
     createTime,
-    shopState
+    shopState,
+    link
   } = shop;
   return User.findOne({
     userEmail: shopOwnerEmail
@@ -59,7 +60,8 @@ const getShopUserInfo = async (shop) => {
       userStudentInfo,
       shopId: _id,
       createTime,
-      shopState
+      shopState,
+      link
     })
   }) 
 }
@@ -168,7 +170,7 @@ const secretKey = 'SnE27ZqaSySKzD31M6fAuvg2DtgofYQNt_fhO_Ry'
 // 鉴权对象 mac
 const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
 const options = {
-  scope: 'school-trade-imgs',
+  scope: 'final-imgs',
   expires: 7200
 }
 const putPolicy = new qiniu.rs.PutPolicy(options)
@@ -185,20 +187,26 @@ const updateMessageList = async (self,other, content) => {
     userName
   } = other;
   if(selfMessageList && selfMessageList.length) {
-    selfMessageList.forEach(item => {
-      if(item.email === userEmail) {
-        item.content = content;
-        item.avatar = userAvatar
-        item.name = userName
-        item.createTime = new Date();
-      }
-    })
+    const index = selfMessageList.findIndex(item => item.email === userEmail)
+    if(index < 0 ) {
+      selfMessageList.push({
+        email: userEmail,
+        content: content,
+        avatar: userAvatar,
+        name: userName,
+        createTime: new Date()
+      })
+    } else {
+      selfMessageList[index].content = content;
+      selfMessageList[index].createTime = new Date();
+    }
   } else {
     selfMessageList = [{
       email: userEmail,
 			content: content,
 			avatar: userAvatar,
 			name: userName,
+      createTime: new Date()
     }]
   }
   await User.updateOne(

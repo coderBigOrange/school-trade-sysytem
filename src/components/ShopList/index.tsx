@@ -47,7 +47,7 @@ const ShopCard:React.FC<Shop> = (props) => {
     shopCollect = [],
     shopLike = [],
     shopId,
-    shopState
+    shopState,
   } = props || {};
   const userInfo = useAppSelector(state => state.user)
   const dispatch = useAppDispatch();

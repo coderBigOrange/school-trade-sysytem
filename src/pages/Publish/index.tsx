@@ -131,6 +131,15 @@ const Publish: React.FC = () => {
               placeholder='请输入价格'
             />
           </Item>
+          <Item  
+            name="link"  
+            layout='horizontal'
+            label="商品原链接"
+          >
+            <Input 
+              placeholder='请输入链接'
+            />
+          </Item>
         </Form>
       </div>
     </div>

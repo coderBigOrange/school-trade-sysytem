@@ -7,6 +7,7 @@ const ShopSchema = new mongoose.Schema({
   shopPrice: Number,
   shopSort: String,
   shopOwnerEmail: String,
+  link: String, //商品链接
   shopImgs: [String],
   shopState: {//商品的状态，上架或者下架
     type: Number,

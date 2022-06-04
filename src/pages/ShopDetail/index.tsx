@@ -43,6 +43,7 @@ const ShopDetail: React.FC = () => {
     shopCollect,
     ShopComment,
     shopLike,
+    link = '',
     shopId,
     shopState,
     shopOwnerEmail
@@ -182,6 +183,9 @@ const ShopDetail: React.FC = () => {
       <div className={s.body}>
         <div className={s.shopInfo}>
           <div className={s.price}>{shopPrice}</div>
+          {
+            link && <a href={link} style={{color: '#003eb0', float: 'right'}} target="_blank" rel="noreferrer">商品原链接</a>
+          }
           <div className={s.title}>{shopTitle}</div>
           <div className={s.content}>{shopDescription}</div>
           <div className={s.imgs}>

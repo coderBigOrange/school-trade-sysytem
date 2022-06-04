@@ -7,9 +7,8 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFA
 
 get http://localhost:8080/messages/allMessages
 
-### 获取用户所有消息
-get http://localhost:8080/users/allMessages?userEmail=1710410221@student.cumtb.edu.cn
-Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY
+### 获取所有消息
+get http://localhost:8080/messages/allMessages
 
 ### 获取用户之间的消息
 get http://localhost:8080/messages/messages?selfEmail=1810410221@student.cumtb.edu.cn&otherEmail=1710410221@student.cumtb.edu.cn
@@ -19,8 +18,26 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFA
 get  http://localhost:8080/users/userPublishList?email=1810410221@student.cumtb.edu.cn
 
 ### 获取消息列表
-get http://localhost:8080/users/messageList?userEmail=1710410221@student.cumtb.edu.cn
+get http://localhost:8080/users/messageList?userEmail=1810410221@student.cumtb.edu.cn
 Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjE4MTA0MTAyMjFAc3R1ZGVudC5jdW10Yi5lZHUuY24iLCJpYXQiOjE2NTAwNzQ2OTMsImV4cCI6MTY1MDA3ODI5M30.AQ7TtMrTqaChckwIvc64YMSdirkLs5FjSvbhp9icZLY
+
+### 删除消息项
+POST http://localhost:8080/users/deleteMessageItem
+Content-Type: application/json
+
+{
+  "selfEmail": "1810410221@student.cumtb.edu.cn",
+  "otherEmail": "1610410221@student.cumtb.edu.cn"
+}
+### 置顶消息项
+POST http://localhost:8080/users/pinMessageItem
+Content-Type: application/json
+
+{
+  "selfEmail": "1810410221@student.cumtb.edu.cn",
+  "otherEmail": "1610410221@student.cumtb.edu.cn"
+}
+
 ### 注册账号
 POST http://localhost:8080/register
 Content-Type: application/json
@@ -57,11 +74,12 @@ Content-Type: application/json
 ### 获取商品列表
 get http://localhost:8080/shops/shopList?shopSort=study&page=0
 
-### 获取用户发布的商品
-get  http://localhost:8080/users/shopList?userEmail=1810410221@student.cumtb.edu.cn
-
 ### 获取全部商品
 get http://localhost:8080/shops/allShops
 
 ### 获取七牛云的上传token
 get  http://localhost:8080/qiniu/token
+
+### 修该图片域名
+get http://localhost:8080/shops/alert
+

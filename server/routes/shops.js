@@ -3,7 +3,9 @@ var express = require('express');
 var router = express.Router();
 const { User } = require('../model/User')
 const { Shop } = require('../model/Shop');
+const { Message } = require('../model/Message');
 const { getShopUserInfo, promisesWrap } = require('../utils');
+const { Types } = require('../db/mongodb');
 
 
 //获取商品列表 
@@ -64,6 +66,45 @@ router.get('/allShops', async(req,res,next) => {
     message: '获取成功',
     data: shopList
   })
+})
+
+//修改测试域名的接口
+router.get('/alert', async(req, res, next) => {
+  const shopList = await Shop.find({});
+  const userList = await User.find({});
+  // shopList.forEach((item) => {
+  //   const id = Types.ObjectId(item._id);
+  //   const newShopImgs = [item.shopImgs[0].replace('rbcv05x6c.hb-bkt.clouddn.com','rcxkuaehe.hb-bkt.clouddn.com')];
+  //   Shop.updateOne(
+  //     {_id: id},
+  //     {
+  //       $set: {shopImgs: newShopImgs}
+  //     },
+  //     function(err, res) {
+  //       console.log(res)
+  //     }
+  //   )
+  // })
+  // userList.forEach(item => {
+  //   const id = Types.ObjectId(item._id);
+  //   const newAvatar = item.userAvatar.replace('rbcv05x6c.hb-bkt.clouddn.com','rcxkuaehe.hb-bkt.clouddn.com')
+  //   const newMessgaeList = item.messageList.map(messageItem => {
+  //     messageItem.avatar = messageItem.avatar.replace('rbcv05x6c.hb-bkt.clouddn.com','rcxkuaehe.hb-bkt.clouddn.com')
+  //     return messageItem
+  //   })
+  //   User.updateOne(
+  //     {_id: id},
+  //     {
+  //       $set: {
+  //         userAvatar: newAvatar,
+  //         messageList: newMessgaeList
+  //       }
+  //     },
+  //     function(err, res) {
+  //       console.log(res)
+  //     }
+  //   )
+  // })
 })
 
 //搜索

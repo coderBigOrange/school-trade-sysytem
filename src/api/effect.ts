@@ -188,6 +188,7 @@ export const PublishShop = async(data: {
   shopSort: number;
   shopPrice: number;
   shopOwnerEmail: string;
+  link?: string;
 }) => {
   return request<any>({
     url: '/users/publish',
@@ -231,6 +232,35 @@ export const GetMessageList = (data: {
       Authorization: localStorage.getItem('token') || ''
     },
     params: data
+  })
+}
+
+//置顶消息项
+export const PinMessageItem = (data: {
+  selfEmail: string;
+  otherEmail: string;
+}) => {
+  return request<MessageType[]>({
+    url: '/users/pinMessageItem',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
+  })
+}
+//删除消息项
+export const DeleteMessageItem = (data: {
+  selfEmail: string;
+  otherEmail: string;
+}) => {
+  return request<MessageType[]>({
+    url: '/users/deleteMessageItem',
+    method: 'post',
+    headers: {
+      Authorization: localStorage.getItem('token') || ''
+    },
+    data
   })
 }
 

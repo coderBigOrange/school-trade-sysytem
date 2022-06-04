@@ -4,11 +4,17 @@ import {
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import s from './style.module.less';
-import { MessageType } from '../../utils/interface'; 
+import { MessageType } from '../../utils/interface';
+import { PinMessageItem, DeleteMessageItem } from '../../api/effect';
+import { useAppSelector, useAppDispatch} from "../../hooks";
 import { formatDate } from '../../utils';
 
-const MessageList: React.FC<{data: MessageType[]}> = (props) => {
-  const { data = [] } = props;
+const MessageList: React.FC<{
+  data: MessageType[],
+  refresh: React.Dispatch<React.SetStateAction<boolean>>
+}> = (props) => {
+  const { data = [], refresh } = props;
+  const self = useAppSelector(state => state.user)
   return (
     <>
       {
@@ -21,11 +27,24 @@ const MessageList: React.FC<{data: MessageType[]}> = (props) => {
                   key: 'pin',
                   text: '置顶',
                   color: 'primary',
+                  onClick: async () => {
+                    const res = await PinMessageItem({selfEmail: self.userEmail, otherEmail: user.email})
+                    if(res.code === 200) {
+                      refresh(value => !value)
+                    }
+                  }
                 },
+                
                 {
                   key: 'delete',
                   text: '删除',
                   color: 'danger',
+                  onClick: async () => {
+                    const res = await DeleteMessageItem({selfEmail: self.userEmail, otherEmail: user.email})
+                    if(res.code === 200) {
+                      refresh(value => !value)
+                    }
+                  }
                 },
               ]}
             >

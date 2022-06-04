@@ -87,6 +87,7 @@ export type Shop = {
   shopId: string;
   shopOwnerEmail: string;
   shopTitle: string;
+  link?: string
   shopDescription: string;
   createTime: string;
   shopPrice: number;

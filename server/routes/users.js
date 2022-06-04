@@ -38,6 +38,52 @@ router.get('/messageList', async (req, res, next) => {
     data
   })
 })
+
+//删除消息列表某一项
+router.post('/deleteMessageItem', async(req,res,next) => {
+  const { selfEmail, otherEmail } = req.body;
+  const user = await User.findOne({
+    userEmail: selfEmail
+  })
+  const messageList = user.messageList.filter(item => item.email !== otherEmail)
+  await User.updateOne(
+    {userEmail: selfEmail},
+    {
+      $set: {messageList: messageList}
+    }
+  )
+  res.send({
+    code: 200,
+    message: '删除成功',
+    data: messageList
+  })
+})
+
+//置顶消息列表某一项
+router.post('/pinMessageItem', async(req,res,next) => {
+  const { selfEmail, otherEmail } = req.body;
+  const user = await User.findOne({
+    userEmail: selfEmail
+  })
+  const messageList = user.messageList || [];
+  const index = messageList.findIndex(item => item.email === otherEmail)
+  const messgaeItem = messageList[index];
+  messageList.splice(index, 1);
+  messageList.unshift(messgaeItem)
+  
+  await User.updateOne(
+    {userEmail: selfEmail},
+    {
+      $set: {messageList: messageList}
+    }
+  )
+  res.send({
+    code: 200,
+    message: '置顶成功',
+    data: messageList
+  })
+})
+
 // 获取用户列表
 router.get('/list', async(req, res, next)=>{
   const user = await User.find()
@@ -55,7 +101,8 @@ router.post('/publish', async(req, res, next) => {
     shopImgs,
     shopSort,
     shopPrice,
-    shopOwnerEmail
+    shopOwnerEmail,
+    link
   } = req.body;
   const shop = await Shop.create({
     shopTitle,
@@ -63,7 +110,8 @@ router.post('/publish', async(req, res, next) => {
     shopImgs,
     shopSort,
     shopOwnerEmail,
-    shopPrice
+    shopPrice,
+    link
   })
   //更新用户的userPublishList
   await User.updateOne(
